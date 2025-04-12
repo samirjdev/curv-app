@@ -9,27 +9,47 @@ import Link from "next/link";
 import { BackgroundPattern } from "@/components/ui/background-pattern";
 import { useRouter } from "next/navigation";
 
-export default function SignUpPage() {
+export default function SignupPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement signup logic
-    console.log("Signup attempt", { email, password, confirmPassword });
-    // For now, just navigate to setup page
-    router.push("/setup");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Signup failed');
+      }
+
+      router.push('/login');
+    } catch (error: any) {
+      console.error('Signup error:', error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
-    console.log("Google signup clicked");
+    console.log("Google login clicked");
     router.push("/setup");
   };
 
   const handleGithubLogin = () => {
-    console.log("GitHub signup clicked");
+    console.log("GitHub login clicked");
     router.push("/setup");
   };
 
@@ -38,12 +58,24 @@ export default function SignUpPage() {
       <BackgroundPattern />
       <Card className="w-[350px] border-none shadow-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="font-rajdhani text-2xl font-semibold text-gray-900 dark:text-white">Start your journey</CardTitle>
-          <CardDescription className="font-rajdhani text-gray-600 dark:text-gray-300">Stay ahead of the Curv starting now</CardDescription>
+          <CardTitle className="font-rajdhani text-2xl font-semibold text-gray-900 dark:text-white">Create your Curv account</CardTitle>
+          <CardDescription className="font-rajdhani text-gray-600 dark:text-gray-300">Join us to start tracking your trends.</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent>
             <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  required
+                />
+              </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">Email</Label>
                 <Input
@@ -53,6 +85,7 @@ export default function SignUpPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  required
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -60,28 +93,22 @@ export default function SignUpPage() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Create a password"
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
-                />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="confirmPassword" className="text-gray-700 dark:text-gray-300">Confirm Password</Label>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="Confirm your password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  required
                 />
               </div>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4 mt-4">
-            <Button className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100" type="submit">
-              Sign up
+            <Button 
+              className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100" 
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Creating account...' : 'Sign up'}
             </Button>
             <div className="relative w-full">
               <div className="absolute inset-0 flex items-center">
@@ -126,9 +153,9 @@ export default function SignUpPage() {
               </Button>
             </div>
             <div className="text-sm text-center text-gray-600 dark:text-gray-400">
-              Already with Curv?{" "}
+              Already have an account?{" "}
               <Link href="/login" className="text-gray-900 dark:text-white hover:underline">
-                Sign in
+                Sign in here
               </Link>
             </div>
           </CardFooter>
