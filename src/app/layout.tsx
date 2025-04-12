@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Rajdhani } from "next/font/google";
 import "./globals.css";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const inter = Inter({ subsets: ["latin"] });
 const rajdhani = Rajdhani({ 
@@ -50,7 +51,10 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className={`${inter.className} ${rajdhani.variable}`}>{children}</body>
+      <body className={`${inter.className} ${rajdhani.variable} bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-200`}>
+        {children}
+        <ThemeToggle />
+      </body>
     </html>
   );
 }
