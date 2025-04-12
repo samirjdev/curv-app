@@ -4,35 +4,24 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    // Check if user has a theme preference
+    // Check localStorage for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setIsDark(prefersDark);
     
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => setIsDark(e.matches);
-    mediaQuery.addEventListener('change', handleChange);
-    
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    // Set initial theme based on localStorage or system preference
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    setIsDarkMode(initialTheme === 'dark');
+    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
   }, []);
 
-  useEffect(() => {
-    // Apply theme to document
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    
-    // Dispatch theme change event
-    window.dispatchEvent(new CustomEvent('themeChange', { detail: { isDark } }));
-  }, [isDark]);
-
   const toggleTheme = () => {
-    setIsDark(!isDark);
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    document.documentElement.classList.toggle('dark', newTheme);
+    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
   };
 
   return (
@@ -47,10 +36,10 @@ export default function ThemeToggle() {
     >
       <motion.div
         className="w-6 h-6 relative"
-        animate={{ rotate: isDark ? 360 : 0 }}
+        animate={{ rotate: isDarkMode ? 360 : 0 }}
         transition={{ duration: 0.5 }}
       >
-        {isDark ? (
+        {isDarkMode ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

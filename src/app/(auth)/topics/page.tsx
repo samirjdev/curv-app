@@ -8,11 +8,13 @@ import { useRouter } from "next/navigation";
 
 const topics = [
   { id: 'sports', label: 'Sports', emoji: '⚽' },
-  { id: 'tech', label: 'Technology', emoji: '💻' },
+  { id: 'technology', label: 'Technology', emoji: '💻' },
+  { id: 'business', label: 'Business', emoji: '💼' },
+  { id: 'entertainment', label: 'Entertainment', emoji: '🎬' },
+  { id: 'science', label: 'Science', emoji: '🔬' },
+  { id: 'health', label: 'Health', emoji: '🏥' },
   { id: 'politics', label: 'Politics', emoji: '🏛️' },
-  { id: 'movies', label: 'Movies', emoji: '🎬' },
   { id: 'gaming', label: 'Gaming', emoji: '🎮' },
-  { id: 'random', label: 'Random', emoji: '🎲' },
 ];
 
 export default function TopicsPage() {
