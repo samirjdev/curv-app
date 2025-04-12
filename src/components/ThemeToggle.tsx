@@ -22,11 +22,16 @@ export default function ThemeToggle() {
     setIsDarkMode(newTheme);
     document.documentElement.classList.toggle('dark', newTheme);
     localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    
+    // Dispatch theme change event
+    window.dispatchEvent(new CustomEvent('themeChange', {
+      detail: { isDark: newTheme }
+    }));
   };
 
   return (
     <motion.button
-      className="fixed bottom-4 right-4 p-2 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-200 z-50"
+      className="fixed bottom-4 right-4 p-2 rounded-full bg-white dark:bg-neutral-950 shadow-lg hover:shadow-xl transition-shadow duration-200 z-50"
       onClick={toggleTheme}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}

@@ -5,7 +5,7 @@ import User from '@/models/User';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
     // Verify JWT token
     const authHeader = req.headers.get('authorization');
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     const token = authHeader.split(' ')[1];
     let decoded;
     try {
-      decoded = verify(token, JWT_SECRET) as { userId: string, email: string };
+      decoded = verify(token, JWT_SECRET) as { userId: string };
     } catch (error) {
       return NextResponse.json(
         { error: 'Invalid token' },
@@ -27,33 +27,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const { username } = await req.json();
-
-    if (!username?.trim()) {
-      return NextResponse.json(
-        { error: 'Username is required' },
-        { status: 400 }
-      );
-    }
-
     await connectDB();
 
-    // Check if username is already taken
-    const existingUser = await User.findOne({ username: username.toLowerCase() });
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'Username is already taken' },
-        { status: 400 }
-      );
-    }
-
-    // Update user with username
-    const user = await User.findOneAndUpdate(
-      { _id: decoded.userId },
-      { username: username.toLowerCase() },
-      { new: true }
-    );
-
+    // Get user
+    const user = await User.findById(decoded.userId).select('-password');
     if (!user) {
       return NextResponse.json(
         { error: 'User not found' },
@@ -62,11 +39,11 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { message: 'Profile updated successfully', user: { id: user._id, email: user.email, username: user.username } },
+      { user: { id: user._id, email: user.email, username: user.username } },
       { status: 200 }
     );
   } catch (error: any) {
-    console.error('Setup error:', error);
+    console.error('Get user error:', error);
     return NextResponse.json(
       { error: error.message || 'An unexpected error occurred' },
       { status: 500 }

@@ -43,9 +43,18 @@ export async function POST(req: Request) {
       { expiresIn: '1d' }
     );
 
-    // Set cookie
+    // Set cookie and return user data including username
     const response = NextResponse.json(
-      { message: 'Login successful', user: { id: user._id, email: user.email, name: user.name } },
+      { 
+        message: 'Login successful', 
+        user: { 
+          id: user._id, 
+          email: user.email, 
+          name: user.name,
+          username: user.username 
+        },
+        token // Include token in response body for localStorage
+      },
       { status: 200 }
     );
 

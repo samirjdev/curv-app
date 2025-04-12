@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ChevronDown, ChevronUp, Edit, ArrowLeft, ArrowRight } from "lucide-react";
+import { ChevronDown, ChevronUp, Edit, ArrowLeft, ArrowRight, Settings } from "lucide-react";
 import { format, subDays, addDays } from "date-fns";
 import { BackgroundPattern } from "@/components/ui/background-pattern";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -36,29 +36,56 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const savedUsername = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
     const savedTopics = localStorage.getItem('selectedTopics');
     
-    if (!savedUsername || !savedTopics) {
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    if (!savedTopics) {
       router.push('/setup');
       return;
     }
 
-    const topics = JSON.parse(savedTopics);
-    // Ensure topics match the data file format
-    const validTopics = topics.filter((topic: string) => 
-      ['sports', 'technology', 'business', 'entertainment', 'science', 'health', 'politics', 'gaming'].includes(topic)
-    );
-    
-    if (validTopics.length === 0) {
-      // If no valid topics, redirect to setup
-      router.push('/setup');
-      return;
-    }
+    // Fetch user data from server
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('/api/auth/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
 
-    setUsername(savedUsername);
-    setSelectedTopics(validTopics);
-    setCurrentTopic(validTopics[0]); // Set first valid topic as default
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+        setUsername(data.user.username || '');
+
+        const topics = JSON.parse(savedTopics);
+        // Ensure topics match the data file format
+        const validTopics = topics.filter((topic: string) => 
+          ['sports', 'technology', 'business', 'entertainment', 'science', 'health', 'politics', 'gaming'].includes(topic)
+        );
+        
+        if (validTopics.length === 0) {
+          // If no valid topics, redirect to setup
+          router.push('/setup');
+          return;
+        }
+
+        setSelectedTopics(validTopics);
+        setCurrentTopic(validTopics[0]); // Set first valid topic as default
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        router.push('/login');
+      }
+    };
+
+    fetchUserData();
   }, [router]);
 
   useEffect(() => {
@@ -115,7 +142,7 @@ export default function DashboardPage() {
       <div className="min-h-screen">
         <BackgroundPattern />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-lg font-rajdhani text-gray-900 dark:text-white">Loading...</div>
+          <div className="text-lg font-rajdhani text-neutral-900 dark:text-white">Loading...</div>
         </div>
       </div>
     );
@@ -126,7 +153,7 @@ export default function DashboardPage() {
       <div className="min-h-screen">
         <BackgroundPattern />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-lg font-rajdhani text-red-500">{error}</div>
+          <div className="text-lg font-rajdhani text-neutral-900 dark:text-white">{error}</div>
         </div>
       </div>
     );
@@ -137,7 +164,7 @@ export default function DashboardPage() {
       <div className="min-h-screen">
         <BackgroundPattern />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-lg font-rajdhani text-gray-900 dark:text-white">No data available</div>
+          <div className="text-lg font-rajdhani text-neutral-900 dark:text-white">No data available</div>
         </div>
       </div>
     );
@@ -152,17 +179,17 @@ export default function DashboardPage() {
       <BackgroundPattern />
       
       {/* Top Bar */}
-      <div className="fixed top-0 left-0 right-0 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-md flex items-center justify-between px-4 z-50">
-        <div className="text-lg font-rajdhani text-gray-900 dark:text-white w-32 whitespace-nowrap">
+      <div className="fixed top-0 left-0 right-0 h-16 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm shadow-md flex items-center justify-between px-4 z-50">
+        <div className="text-lg font-rajdhani text-neutral-900 dark:text-white w-32 whitespace-nowrap">
           Hello, {username}
         </div>
-        <div className="text-lg font-rajdhani text-gray-900 dark:text-white text-center flex-1">
+        <div className="text-lg font-rajdhani text-neutral-900 dark:text-white text-center flex-1">
           {format(currentDate, 'M/d')} - {currentTopic.charAt(0).toUpperCase() + currentTopic.slice(1)}
         </div>
         <div className="flex gap-2 w-32 justify-end">
           <Button
             variant="outline"
-            className="w-10 h-10 p-0 border-gray-300 dark:border-gray-600"
+            className="w-10 h-10 p-0 border-neutral-300 dark:border-neutral-600"
             onClick={() => navigateDay('prev')}
             disabled={isSevenDaysAgo}
           >
@@ -170,7 +197,7 @@ export default function DashboardPage() {
           </Button>
           <Button
             variant="outline"
-            className="w-10 h-10 p-0 border-gray-300 dark:border-gray-600"
+            className="w-10 h-10 p-0 border-neutral-300 dark:border-neutral-600"
             onClick={() => navigateDay('next')}
             disabled={isToday}
           >
@@ -189,27 +216,27 @@ export default function DashboardPage() {
             return (
               <Card
                 key={headlineId}
-                className="border-none shadow-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm cursor-pointer hover:shadow-lg transition-all duration-300"
+                className="border-none shadow-2xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm cursor-pointer hover:shadow-lg transition-all duration-300"
                 onClick={() => toggleHeadline(headlineId)}
               >
                 <CardHeader className="py-0.1 px-4">
                   <div className="flex items-center justify-between -my-1">
-                    <h3 className="text-sm font-rajdhani font-medium text-gray-900 dark:text-white">
+                    <h3 className="text-sm font-rajdhani font-medium text-neutral-900 dark:text-white">
                       {headline.headline}
                     </h3>
                     {isExpanded ? (
-                      <ChevronUp className="h-4 w-4 text-gray-500 dark:text-gray-400 ml-2 flex-shrink-0" />
+                      <ChevronUp className="h-4 w-4 text-neutral-500 dark:text-neutral-400 ml-2 flex-shrink-0" />
                     ) : (
-                      <ChevronDown className="h-4 w-4 text-gray-500 dark:text-gray-400 ml-2 flex-shrink-0" />
+                      <ChevronDown className="h-4 w-4 text-neutral-500 dark:text-neutral-400 ml-2 flex-shrink-0" />
                     )}
                   </div>
                 </CardHeader>
                 {isExpanded && (
                   <CardContent className="px-4 pt-0 pb-3 space-y-3">
-                    <p className="text-sm font-rajdhani text-gray-600 dark:text-gray-300">
+                    <p className="text-sm font-rajdhani text-neutral-600 dark:text-neutral-300">
                       {headline.text}
                     </p>
-                    <div className="text-xs font-rajdhani text-gray-500 dark:text-gray-400">
+                    <div className="text-xs font-rajdhani text-neutral-500 dark:text-neutral-400">
                       Sources: {headline.sources.join(', ')}
                     </div>
                   </CardContent>
@@ -218,42 +245,38 @@ export default function DashboardPage() {
             );
           })
         ) : (
-          <div className="text-center text-gray-500 dark:text-gray-400">
+          <div className="text-center text-neutral-500 dark:text-neutral-400">
             No headlines available for this topic
           </div>
         )}
       </div>
 
-      {/* Bottom Bar AND STOP CHANGING THE H VALUE OF THE BOTTOM BAR */}
-      <div className="fixed bottom-0 left-0 right-0 h-16.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-md flex items-center px-4 z-50">
+      {/* Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 h-17 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm shadow-md flex items-center px-4 z-50">
         <div className="w-10">
           <Button
             variant="outline"
-            className="w-9 h-9 p-0 border-gray-300 dark:border-gray-600"
-            onClick={() => router.push('/topics')}
+            size="icon"
+            onClick={() => router.push("/settings")}
+            className="h-12 w-12"
           >
-            <Edit className="h-4 w-4" />
+            <Settings className="h-5 w-5" />
           </Button>
         </div>
         <div className="flex-1 flex justify-center gap-2">
-          {selectedTopics.map(topic => (
+          {selectedTopics.map((topic) => (
             <Button
               key={topic}
               variant={currentTopic === topic ? "default" : "outline"}
-              className={`w-12 h-12 p-0 ${
-                currentTopic === topic
-                  ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900"
-                  : "border-gray-300 dark:border-gray-600"
-              }`}
+              size="icon"
               onClick={() => setCurrentTopic(topic)}
+              className="h-12 w-12 text-2xl"
             >
-              <span className="text-xl">
-                {dailyData && dailyData[topic] ? dailyData[topic].emoji : '📰'}
-              </span>
+              {dailyData[topic]?.emoji || "📰"}
             </Button>
           ))}
         </div>
-        <div className="w-10">
+        <div className="w-10 flex justify-end">
           <ThemeToggle />
         </div>
       </div>

@@ -51,7 +51,7 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className={`${inter.className} ${rajdhani.variable} bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-200`}>
+      <body className={`${inter.className} ${rajdhani.variable} bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white transition-colors duration-200`}>
         {children}
         <ThemeToggle />
       </body>
