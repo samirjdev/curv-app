@@ -1,103 +1,125 @@
-# Curv
+# <img src="/public/curv_text.png" alt="Curv Logo" width="800" />
 
-> Stay ahead of the Curv.
+# Curv - The Mindful "Anti-Social Media" Platform
 
-Curv is a modern, personalized news dashboard that delivers curated headlines across your favorite topics. With a clean, minimalist interface and topic-based organization, Curv helps you stay informed without the noise.
+Built in under 24 hours for HackaBull 2025 at the University of South Florida! 🚀
+
+## Inspiration
+
+In today's digital age, social media platforms often lead to negative effects like depression, anxiety, and cyberbullying. We wanted to create a platform that captures the engaging aspects of social media while eliminating its harmful elements. Curv is designed to keep you informed by keeping you ahead of the Curv and connected without the downsides of traditional social media.
+
+### The Problem We're Solving
+- 🕒 People spend excessive time on social media
+- 😔 Social media contributes to depression and anxiety
+- 🎯 Cyberbullying and toxic behavior online
+- 📱 Addictive design patterns in current platforms
+
+### Our Solution
+Curv provides a mindful approach to news consumption and community interaction:
+- Clean, distraction-free interface
+- Focus on quality content over engagement metrics
+- Community-driven discussions without the toxicity
+- AI-powered content curation for balanced perspectives
+
+## Technologies Used
+
+### Frontend
+- **Next.js 14** - React framework with App Router
+- **shadcn/ui** - High-quality UI components
+- **TailwindCSS** - Utility-first CSS framework
+- **PlotDB** - For SVG Theming
+- **TypeScript** - Type-safe development
+
+### Backend
+- **Python FastAPI** - High-performance API server
+- **MongoDB Atlas** - Cloud database for:
+  - User profiles and authentication
+  - Article storage and management
+  - Comment systems
+  - Rating and interaction tracking
+  - Content recommendations
+
+### AI/ML
+- **Google Gemini** - Powering:
+  - Article generation from news sources
+  - Content summarization
+  - Comment analysis
+  - Topic classification
+
+### Security
+- **bcrypt** - Secure password hashing
+- **JWT** - Token-based authentication
+- **HTTP-only cookies** - Secure session management
 
 ## Features
 
-- 🎯 **Personalized Topics**: Choose your interests and get headlines tailored to you
-- 📱 **Responsive Design**: Beautiful interface that works on any device
-- 🌓 **Dark Mode**: Easy on the eyes, day or night
-- 📅 **7-Day History**: Access headlines from the past week
-- 🔍 **Expandable Headlines**: Click to reveal detailed content and sources
-- 🎨 **Modern UI**: Built with shadcn/ui components for a sleek experience
+### Authentication System
+- Complete user authentication flow
+- Secure password hashing with bcrypt
+- JWT token management
+- Protected API routes
 
-## Tech Stack
+### MongoDB Integration
+- Efficient document-based data storage
+- Real-time data updates
+- Complex aggregation pipelines for:
+  - Content recommendations
+  - User interaction tracking
+  - Comment threading
+  - Rating systems
 
-- **Frontend**: Next.js 13+ with App Router
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Backend**: Python for data generation
-- **Data Storage**: Static JSON files
+### AI-Powered Content
+- Automated article generation from trusted sources
+- Smart content summarization
+- Topic-based article classification
+- Sentiment analysis for community health
+
+### Modern UI/UX
+- Responsive design
+- Dark/light mode
+- Animated backgrounds using PlotDB
+- Smooth transitions and interactions
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js 16+
-- Python 3.8+
-- npm or yarn
-
-### Installation
-
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/curv.git
+git clone https://github.com/samirjdev/curvapp.git
 cd curv
 ```
 
-2. Install frontend dependencies:
+2. Install dependencies:
 ```bash
 npm install
-# or
-yarn install
 ```
 
-3. Install Python dependencies:
+3. Set up environment variables:
 ```bash
-pip install -r requirements.txt
+cp .env.example .env.local
+# Add your API keys and configuration
 ```
 
-4. Generate initial data:
-```bash
-python scripts/generate_data.py
-```
-
-5. Start the development server:
+4. Start the development server:
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-### Project Structure
-
-```
-curv/
-├── src/
-│   ├── app/              # Next.js app router pages
-│   ├── components/       # React components
-│   └── lib/             # Utility functions
-├── public/
-│   └── data/            # Generated news data
-├── scripts/
-│   └── generate_data.py # Data generation script
-└── README.md
+5. For the Python backend:
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
 ```
 
-## Usage
+## Environment Variables
 
-1. **First Visit**: Set up your username and select your topics of interest
-2. **Dashboard**: View your personalized news feed
-3. **Navigation**: 
-   - Use top bar arrows to navigate between dates
-   - Use bottom bar icons to switch between topics
-   - Click headlines to expand/collapse content
-4. **Customize**: Click the edit button to modify your topic selection
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+Required environment variables:
+```
+MONGODB_URI=your_mongodb_uri
+GEMINI_API_KEY=your_gemini_api_key
+JWT_SECRET=your_jwt_secret
+```
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Built with [Next.js](https://nextjs.org/)
-- UI components from [shadcn/ui](https://ui.shadcn.com/)
-- Styling with [Tailwind CSS](https://tailwindcss.com/)
+MIT License - see LICENSE.md for details
