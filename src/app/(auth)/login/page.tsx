@@ -34,6 +34,21 @@ export default function LoginPage() {
         throw new Error(data.error || 'Login failed');
       }
 
+      // Check if username exists in localStorage
+      const savedUsername = localStorage.getItem('username');
+      if (!savedUsername) {
+        router.push('/setup');
+        return;
+      }
+
+      // Check if topics are selected
+      const savedTopics = localStorage.getItem('selectedTopics');
+      if (!savedTopics) {
+        router.push('/welcome');
+        return;
+      }
+
+      // If both username and topics exist, go to dashboard
       router.push('/dashboard');
     } catch (error: any) {
       console.error('Login error:', error.message);

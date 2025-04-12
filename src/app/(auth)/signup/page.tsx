@@ -14,13 +14,16 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
 
     try {
+      console.log('Sending signup request...');
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -29,15 +32,27 @@ export default function SignupPage() {
         body: JSON.stringify({ name, email, password }),
       });
 
+      console.log('Response status:', response.status);
+      const contentType = response.headers.get('content-type');
+      console.log('Response content type:', contentType);
+
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        console.error('Non-JSON response:', text);
+        throw new Error('Server returned an invalid response');
+      }
+
       const data = await response.json();
+      console.log('Response data:', { ...data, user: data.user ? '[REDACTED]' : undefined });
 
       if (!response.ok) {
-        throw new Error(data.error || 'Signup failed');
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
 
       router.push('/login');
     } catch (error: any) {
-      console.error('Signup error:', error.message);
+      console.error('Signup error:', error);
+      setError(error.message || 'An error occurred during signup');
     } finally {
       setIsLoading(false);
     }
@@ -64,6 +79,11 @@ export default function SignupPage() {
         <form onSubmit={handleSubmit}>
           <CardContent>
             <div className="grid w-full items-center gap-4">
+              {error && (
+                <div className="text-red-500 text-sm bg-red-50 p-2 rounded-md">
+                  {error}
+                </div>
+              )}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">Name</Label>
                 <Input

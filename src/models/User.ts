@@ -19,6 +19,12 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Name is required'],
     trim: true,
   },
+  username: {
+    type: String,
+    unique: true,
+    trim: true,
+    sparse: true, // Allows null values for unique field
+  },
   createdAt: {
     type: Date,
     default: Date.now,
