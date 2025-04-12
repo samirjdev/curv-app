@@ -8,13 +8,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # MongoDB connection
-MONGODB_URI = os.getenv('MONGODB_URI')
-client = MongoClient(MONGODB_URI)
-db = client['test']
-articles_collection = db.articles
+# MONGODB_URI = os.getenv('MONGODB_URI')
+# client = MongoClient(MONGODB_URI)
+# db = client['test']
+# articles_collection = db.articles
 
-print('Connected to MongoDB database:', db.name)
-print('Collections in database:', db.list_collection_names())
+# print('Connected to MongoDB database:', db.name)
+# print('Collections in database:', db.list_collection_names())
 
 # Base data structure for topics
 TOPICS_DATA = {
@@ -217,7 +217,7 @@ def generate_daily_data(date_str):
                 },
                 {'$set': article_doc},
                 upsert=True
-            )
+        )
 
 def main():
     # Create directory structure

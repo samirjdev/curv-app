@@ -9,6 +9,7 @@ import { format, subDays, addDays } from "date-fns";
 import { BackgroundPattern } from "@/components/ui/background-pattern";
 import ThemeToggle from "@/components/ThemeToggle";
 import CountdownTimer from "@/components/CountdownTimer";
+import TopicRatingBar from "@/components/TopicRatingBar";
 
 const TOPICS_DATA: Record<string, { emoji: string }> = {
   sports: { emoji: '⚽' },
@@ -231,8 +232,8 @@ export default function DashboardPage() {
         <div className="text-lg text-neutral-900 dark:text-white w-32 whitespace-nowrap">
           Hello, {username}
         </div>
-        <div className="text-lg text-neutral-900 dark:text-white text-center flex-1">
-          {format(currentDate, 'M/d')} - {currentTopic.charAt(0).toUpperCase() + currentTopic.slice(1)}
+        <div className="text-2xl font-manrope text-neutral-900 dark:text-white text-center flex-1">
+          Curv
         </div>
         <div className="flex gap-2 w-32 justify-end">
           <Button
@@ -254,44 +255,57 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="pt-20 pb-16 px-4 max-w-2xl mx-auto space-y-3">
-        {topicData && topicData.headlines ? (
-          topicData.headlines.map((headline, index) => {
-            const headlineId = `${currentTopic}-${index}`;
-            const isExpanded = expandedHeadlines.has(headlineId);
+      {/* Date-Topic Bar */}
+      <div className="fixed top-16 left-0 right-0 h-12 bg-black/50 backdrop-blur-sm flex items-center justify-center z-40">
+        <div className="text-lg text-white">
+          {format(currentDate, 'M/d')} ⠀⠀{currentTopic.charAt(0).toUpperCase() + currentTopic.slice(1)}
+        </div>
+      </div>
 
-            return (
-              <Card
-                key={headlineId}
-                className="border-none shadow-2xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm cursor-pointer hover:shadow-lg transition-all duration-300"
-                onClick={() => toggleHeadline(headlineId)}
-              >
-                <CardHeader className="py-0.1 px-4">
-                  <div className="flex items-center justify-between -my-1">
-                    <h3 className="text-sm font-rajdhani font-medium text-neutral-900 dark:text-white">
-                      {headline.headline}
-                    </h3>
-                    {isExpanded ? (
-                      <ChevronUp className="h-4 w-4 text-neutral-500 dark:text-neutral-400 ml-2 flex-shrink-0" />
-                    ) : (
-                      <ChevronDown className="h-4 w-4 text-neutral-500 dark:text-neutral-400 ml-2 flex-shrink-0" />
-                    )}
-                  </div>
-                </CardHeader>
-                {isExpanded && (
-                  <CardContent className="px-4 pt-0 pb-3 space-y-3">
-                    <p className="text-sm font-rajdhani text-neutral-600 dark:text-neutral-300">
-                      {headline.text}
-                    </p>
-                    <div className="text-xs font-rajdhani text-neutral-500 dark:text-neutral-400">
-                      Sources: {headline.sources.join(', ')}
+      {/* Content */}
+      <div className="pt-32 pb-32 px-4 max-w-2xl mx-auto space-y-3">
+        {topicData && topicData.headlines ? (
+          <>
+            {topicData.headlines.map((headline, index) => {
+              const headlineId = `${currentTopic}-${index}`;
+              const isExpanded = expandedHeadlines.has(headlineId);
+
+              return (
+                <Card
+                  key={headlineId}
+                  className="border-none shadow-2xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm cursor-pointer hover:shadow-lg transition-all duration-300"
+                  onClick={() => toggleHeadline(headlineId)}
+                >
+                  <CardHeader className="py-0.1 px-4">
+                    <div className="flex items-center justify-between -my-1">
+                      <h3 className="text-sm font-rajdhani font-medium text-neutral-900 dark:text-white">
+                        {headline.headline}
+                      </h3>
+                      {isExpanded ? (
+                        <ChevronUp className="h-4 w-4 text-neutral-500 dark:text-neutral-400 ml-2 flex-shrink-0" />
+                      ) : (
+                        <ChevronDown className="h-4 w-4 text-neutral-500 dark:text-neutral-400 ml-2 flex-shrink-0" />
+                      )}
                     </div>
-                  </CardContent>
-                )}
-              </Card>
-            );
-          })
+                  </CardHeader>
+                  {isExpanded && (
+                    <CardContent className="px-4 pt-0 pb-3 space-y-3">
+                      <p className="text-sm font-rajdhani text-neutral-600 dark:text-neutral-300">
+                        {headline.text}
+                      </p>
+                      <div className="text-xs font-rajdhani text-neutral-500 dark:text-neutral-400">
+                        Sources: {headline.sources.join(', ')}
+                      </div>
+                    </CardContent>
+                  )}
+                </Card>
+              );
+            })}
+            <TopicRatingBar 
+              date={format(currentDate, 'yyyy-MM-dd')} 
+              topic={currentTopic} 
+            />
+          </>
         ) : (
           <div className="text-center text-neutral-500 dark:text-neutral-400">
             No headlines available for this topic
