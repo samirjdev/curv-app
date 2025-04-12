@@ -1,0 +1,221 @@
+{
+  "sports": {
+    "emoji": "⚽",
+    "headlines": [
+      {
+        "headline": "Major Upset in Championship Finals",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. .",
+        "sources": [
+          "The Guardian"
+        ]
+      },
+      {
+        "headline": "Record-Breaking Performance in Tournament",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "sources": [
+          "Bloomberg"
+        ]
+      },
+      {
+        "headline": "Record-Breaking Performance in Tournament",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. .",
+        "sources": [
+          "The Guardian"
+        ]
+      },
+      {
+        "headline": "Record-Breaking Performance in Tournament",
+        "text": " \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "sources": [
+          "BBC",
+          "Fox News",
+          "Associated Press"
+        ]
+      },
+      {
+        "headline": "Unexpected Victory Shocks Fans",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. .  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "Fox News"
+        ]
+      }
+    ]
+  },
+  "tech": {
+    "emoji": "💻",
+    "headlines": [
+      {
+        "headline": "Revolutionary AI Breakthrough Announced",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "MSNBC",
+          "The Washington Post",
+          "The Guardian"
+        ]
+      },
+      {
+        "headline": "Major Security Update Released",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "CNN"
+        ]
+      },
+      {
+        "headline": "Tech Giant Reveals Next-Gen Device",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "sources": [
+          "Reuters"
+        ]
+      }
+    ]
+  },
+  "politics": {
+    "emoji": "🏛️",
+    "headlines": [
+      {
+        "headline": "Historic Bill Passes in Parliament",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "Reuters"
+        ]
+      },
+      {
+        "headline": "Historic Bill Passes in Parliament",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. .",
+        "sources": [
+          "MSNBC"
+        ]
+      },
+      {
+        "headline": "New Policy Reform Announced",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. .",
+        "sources": [
+          "Fox News",
+          "Reuters",
+          "The Washington Post"
+        ]
+      }
+    ]
+  },
+  "movies": {
+    "emoji": "🎬",
+    "headlines": [
+      {
+        "headline": "Classic Film Gets Modern Remake",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "sources": [
+          "CNN",
+          "Associated Press",
+          "Fox News"
+        ]
+      },
+      {
+        "headline": "Acclaimed Director Announces New Project",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "Fox News"
+        ]
+      },
+      {
+        "headline": "Blockbuster Breaks Box Office Records",
+        "text": ".  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "MSNBC",
+          "Fox News",
+          "The Washington Post"
+        ]
+      },
+      {
+        "headline": "Blockbuster Breaks Box Office Records",
+        "text": ".  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "sources": [
+          "MSNBC"
+        ]
+      },
+      {
+        "headline": "Surprise Hit Takes Critics by Storm",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "Reuters",
+          "Associated Press",
+          "The New York Times"
+        ]
+      }
+    ]
+  },
+  "gaming": {
+    "emoji": "🎮",
+    "headlines": [
+      {
+        "headline": "Anticipated Game Finally Launches",
+        "text": " \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "Bloomberg",
+          "The Guardian"
+        ]
+      },
+      {
+        "headline": "Indie Game Becomes Surprise Hit",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. .  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "sources": [
+          "Bloomberg",
+          "BBC",
+          "MSNBC"
+        ]
+      },
+      {
+        "headline": "Classic Series Gets Modern Reboot",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "Reuters",
+          "CNN"
+        ]
+      },
+      {
+        "headline": "Revolutionary Gaming Tech Unveiled",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "Reuters"
+        ]
+      },
+      {
+        "headline": "Classic Series Gets Modern Reboot",
+        "text": ".  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "sources": [
+          "Reuters",
+          "The New York Times",
+          "Fox News"
+        ]
+      }
+    ]
+  },
+  "random": {
+    "emoji": "🎲",
+    "headlines": [
+      {
+        "headline": "Unexpected Trend Takes Internet by Storm",
+        "text": " Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. .",
+        "sources": [
+          "Fox News",
+          "Associated Press"
+        ]
+      },
+      {
+        "headline": "Bizarre Coincidence Captures Attention",
+        "text": " \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "sources": [
+          "Bloomberg",
+          "MSNBC",
+          "Associated Press"
+        ]
+      },
+      {
+        "headline": "Mystery Finally Solved After Years",
+        "text": ".  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "Fox News"
+        ]
+      }
+    ]
+  }
+}

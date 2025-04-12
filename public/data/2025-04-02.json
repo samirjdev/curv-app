@@ -1,0 +1,231 @@
+{
+  "sports": {
+    "emoji": "⚽",
+    "headlines": [
+      {
+        "headline": "Unexpected Victory Shocks Fans",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "Associated Press"
+        ]
+      },
+      {
+        "headline": "New Star Player Signs Historic Deal",
+        "text": " Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "Bloomberg",
+          "Reuters"
+        ]
+      },
+      {
+        "headline": "Major Upset in Championship Finals",
+        "text": ".  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "Bloomberg",
+          "MSNBC",
+          "Reuters"
+        ]
+      },
+      {
+        "headline": "Record-Breaking Performance in Tournament",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "sources": [
+          "CNN",
+          "Reuters",
+          "The New York Times"
+        ]
+      }
+    ]
+  },
+  "tech": {
+    "emoji": "💻",
+    "headlines": [
+      {
+        "headline": "Startup Disrupts Industry with Innovation",
+        "text": " Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "BBC",
+          "Bloomberg",
+          "CNN"
+        ]
+      },
+      {
+        "headline": "Startup Disrupts Industry with Innovation",
+        "text": " \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. .  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "sources": [
+          "CNN",
+          "The Guardian",
+          "MSNBC"
+        ]
+      },
+      {
+        "headline": "Startup Disrupts Industry with Innovation",
+        "text": ".  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "Bloomberg"
+        ]
+      }
+    ]
+  },
+  "politics": {
+    "emoji": "🏛️",
+    "headlines": [
+      {
+        "headline": "New Policy Reform Announced",
+        "text": " Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "sources": [
+          "Bloomberg",
+          "Associated Press"
+        ]
+      },
+      {
+        "headline": "Landmark Decision Changes Landscape",
+        "text": " \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "sources": [
+          "Associated Press",
+          "The Washington Post",
+          "The New York Times"
+        ]
+      },
+      {
+        "headline": "New Policy Reform Announced",
+        "text": ".  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "The Guardian"
+        ]
+      },
+      {
+        "headline": "Landmark Decision Changes Landscape",
+        "text": " \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "The Washington Post"
+        ]
+      },
+      {
+        "headline": "Global Agreement Reached",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "sources": [
+          "MSNBC",
+          "BBC"
+        ]
+      }
+    ]
+  },
+  "movies": {
+    "emoji": "🎬",
+    "headlines": [
+      {
+        "headline": "Acclaimed Director Announces New Project",
+        "text": " \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "CNN",
+          "BBC",
+          "The Washington Post"
+        ]
+      },
+      {
+        "headline": "Surprise Hit Takes Critics by Storm",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "sources": [
+          "Reuters"
+        ]
+      },
+      {
+        "headline": "Classic Film Gets Modern Remake",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. .",
+        "sources": [
+          "CNN"
+        ]
+      },
+      {
+        "headline": "Acclaimed Director Announces New Project",
+        "text": " Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. .",
+        "sources": [
+          "Fox News",
+          "Bloomberg"
+        ]
+      },
+      {
+        "headline": "Acclaimed Director Announces New Project",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .",
+        "sources": [
+          "The Washington Post",
+          "MSNBC"
+        ]
+      }
+    ]
+  },
+  "gaming": {
+    "emoji": "🎮",
+    "headlines": [
+      {
+        "headline": "Esports Tournament Sets Viewership Record",
+        "text": " \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "The Guardian"
+        ]
+      },
+      {
+        "headline": "Revolutionary Gaming Tech Unveiled",
+        "text": ".  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "The Washington Post",
+          "MSNBC",
+          "Bloomberg"
+        ]
+      },
+      {
+        "headline": "Anticipated Game Finally Launches",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. .",
+        "sources": [
+          "MSNBC"
+        ]
+      },
+      {
+        "headline": "Anticipated Game Finally Launches",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "sources": [
+          "CNN",
+          "MSNBC"
+        ]
+      },
+      {
+        "headline": "Indie Game Becomes Surprise Hit",
+        "text": ".  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sources": [
+          "Reuters"
+        ]
+      }
+    ]
+  },
+  "random": {
+    "emoji": "🎲",
+    "headlines": [
+      {
+        "headline": "You Won't Believe What Happened Today",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  \n    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. .",
+        "sources": [
+          "MSNBC",
+          "Associated Press"
+        ]
+      },
+      {
+        "headline": "Mystery Finally Solved After Years",
+        "text": " \n    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "sources": [
+          "Associated Press",
+          "The New York Times"
+        ]
+      },
+      {
+        "headline": "Unexpected Trend Takes Internet by Storm",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  \n    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sources": [
+          "The Guardian",
+          "CNN",
+          "Associated Press"
+        ]
+      }
+    ]
+  }
+}
