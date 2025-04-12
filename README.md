@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Curv
+
+> Stay ahead of the Curv.
+
+Curv is a modern, personalized news dashboard that delivers curated headlines across your favorite topics. With a clean, minimalist interface and topic-based organization, Curv helps you stay informed without the noise.
+
+## Features
+
+- 🎯 **Personalized Topics**: Choose your interests and get headlines tailored to you
+- 📱 **Responsive Design**: Beautiful interface that works on any device
+- 🌓 **Dark Mode**: Easy on the eyes, day or night
+- 📅 **7-Day History**: Access headlines from the past week
+- 🔍 **Expandable Headlines**: Click to reveal detailed content and sources
+- 🎨 **Modern UI**: Built with shadcn/ui components for a sleek experience
+
+## Tech Stack
+
+- **Frontend**: Next.js 13+ with App Router
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Backend**: Python for data generation
+- **Data Storage**: Static JSON files
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 16+
+- Python 3.8+
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/curv.git
+cd curv
+```
+
+2. Install frontend dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+4. Generate initial data:
+```bash
+python scripts/generate_data.py
+```
+
+5. Start the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+curv/
+├── src/
+│   ├── app/              # Next.js app router pages
+│   ├── components/       # React components
+│   └── lib/             # Utility functions
+├── public/
+│   └── data/            # Generated news data
+├── scripts/
+│   └── generate_data.py # Data generation script
+└── README.md
+```
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. **First Visit**: Set up your username and select your topics of interest
+2. **Dashboard**: View your personalized news feed
+3. **Navigation**: 
+   - Use top bar arrows to navigate between dates
+   - Use bottom bar icons to switch between topics
+   - Click headlines to expand/collapse content
+4. **Customize**: Click the edit button to modify your topic selection
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Styling with [Tailwind CSS](https://tailwindcss.com/)
