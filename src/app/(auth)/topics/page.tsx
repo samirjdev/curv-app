@@ -8,13 +8,11 @@ import { useRouter } from "next/navigation";
 
 const topics = [
   { id: 'sports', label: 'Sports', emoji: '⚽' },
-  { id: 'technology', label: 'Technology', emoji: '💻' },
+  { id: 'technology', label: 'Tech', emoji: '💻' },
   { id: 'business', label: 'Business', emoji: '💼' },
   { id: 'entertainment', label: 'Entertainment', emoji: '🎬' },
   { id: 'science', label: 'Science', emoji: '🔬' },
-  { id: 'health', label: 'Health', emoji: '🏥' },
-  { id: 'politics', label: 'Politics', emoji: '🏛️' },
-  { id: 'gaming', label: 'Gaming', emoji: '🎮' },
+  { id: 'politics', label: 'Politics', emoji: '🏛️' }
 ];
 
 export default function TopicsPage() {
@@ -48,7 +46,7 @@ export default function TopicsPage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <BackgroundPattern />
-      <Card className="w-[350px] border-none shadow-2xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm">
+      <Card className="w-[350px] border-2 border-neutral-200 dark:border-neutral-800 shadow-2xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="font-rajdhani text-2xl font-semibold text-neutral-900 dark:text-white">
             Choose Your Topics
@@ -74,6 +72,9 @@ export default function TopicsPage() {
                 {topic.label}
               </Button>
             ))}
+          </div>
+          <div className="mt-6 text-center text-sm text-neutral-500 dark:text-neutral-400 font-rajdhani">
+            More topics coming soon! Stay tuned for updates.
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4 mt-4">

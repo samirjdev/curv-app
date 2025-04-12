@@ -1,62 +1,30 @@
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import connectDB from "./mongodb";
-import User from "@/models/User";
+import { verify } from 'jsonwebtoken';
+import { NextRequest } from 'next/server';
+import connectToDatabase from './mongodb';
+import User from '@/models/User';
 
-export const authOptions: NextAuthOptions = {
-  providers: [
-    CredentialsProvider({
-      name: "credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Please enter your email and password");
-        }
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
-        await connectDB();
-
-        const user = await User.findOne({ email: credentials.email });
-
-        if (!user) {
-          throw new Error("No user found with this email");
-        }
-
-        const isPasswordValid = await user.comparePassword(credentials.password);
-
-        if (!isPasswordValid) {
-          throw new Error("Invalid password");
-        }
-
-        return {
-          id: user._id.toString(),
-          email: user.email,
-          name: user.name,
-        };
-      }
-    })
-  ],
-  pages: {
-    signIn: "/login",
-  },
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id as string;
-      }
-      return session;
+export async function auth(req: NextRequest) {
+  try {
+    const token = req.headers.get('authorization')?.replace('Bearer ', '');
+    
+    if (!token) {
+      return null;
     }
-  },
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-}; 
+
+    const decoded = verify(token, JWT_SECRET) as { userId: string };
+    
+    await connectToDatabase();
+    const user = await User.findById(decoded.userId);
+    
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  } catch (error) {
+    console.error('Auth error:', error);
+    return null;
+  }
+} 

@@ -8,16 +8,31 @@ import { ChevronDown, ChevronUp, Edit, ArrowLeft, ArrowRight, Settings } from "l
 import { format, subDays, addDays } from "date-fns";
 import { BackgroundPattern } from "@/components/ui/background-pattern";
 import ThemeToggle from "@/components/ThemeToggle";
+import CountdownTimer from "@/components/CountdownTimer";
 
-interface Headline {
+const TOPICS_DATA: Record<string, { emoji: string }> = {
+  sports: { emoji: '⚽' },
+  technology: { emoji: '💻' },
+  business: { emoji: '💼' },
+  entertainment: { emoji: '🎬' },
+  science: { emoji: '🔬' },
+  politics: { emoji: '🏛️' }
+};
+
+interface Article {
   headline: string;
   text: string;
   sources: string[];
+  emoji?: string;
 }
 
 interface TopicData {
   emoji: string;
-  headlines: Headline[];
+  headlines: {
+    headline: string;
+    text: string;
+    sources: string[];
+  }[];
 }
 
 interface DailyData {
@@ -68,7 +83,7 @@ export default function DashboardPage() {
         const topics = JSON.parse(savedTopics);
         // Ensure topics match the data file format
         const validTopics = topics.filter((topic: string) => 
-          ['sports', 'technology', 'business', 'entertainment', 'science', 'health', 'politics', 'gaming'].includes(topic)
+          ['sports', 'technology', 'business', 'entertainment', 'science', 'politics'].includes(topic)
         );
         
         if (validTopics.length === 0) {
@@ -94,22 +109,55 @@ export default function DashboardPage() {
       setError(null);
       try {
         const dateStr = format(currentDate, 'yyyy-MM-dd');
-        const response = await fetch(`/data/${dateStr}.json`);
+        const token = localStorage.getItem('token');
+        
+        const response = await fetch(`/api/articles?date=${dateStr}&topic=${currentTopic}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          if (response.status === 404) {
+            // No articles found, set empty state
+            setDailyData({
+              [currentTopic]: {
+                emoji: TOPICS_DATA[currentTopic]?.emoji || '📰',
+                headlines: []
+              }
+            });
+            return;
+          }
+          throw new Error('Failed to fetch articles');
         }
-        const data = await response.json();
-        setDailyData(data);
+
+        const { articles } = await response.json();
+        
+        // Transform the data to match the existing format
+        const transformedData = {
+          [currentTopic]: {
+            emoji: articles[0]?.emoji || TOPICS_DATA[currentTopic]?.emoji || '📰',
+            headlines: articles.map((article: any) => ({
+              headline: article.headline,
+              text: article.text,
+              sources: article.sources
+            }))
+          }
+        };
+
+        setDailyData(transformedData);
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError('Failed to load data. Please try again later.');
+        setError('Failed to load articles. Please try again later.');
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, [currentDate]);
+    if (currentTopic) {
+      fetchData();
+    }
+  }, [currentDate, currentTopic]);
 
   const toggleHeadline = (id: string) => {
     setExpandedHeadlines(prev => {
@@ -142,7 +190,7 @@ export default function DashboardPage() {
       <div className="min-h-screen">
         <BackgroundPattern />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-lg font-rajdhani text-neutral-900 dark:text-white">Loading...</div>
+          <div className="text-lg text-neutral-900 dark:text-white">Loading...</div>
         </div>
       </div>
     );
@@ -153,7 +201,7 @@ export default function DashboardPage() {
       <div className="min-h-screen">
         <BackgroundPattern />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-lg font-rajdhani text-neutral-900 dark:text-white">{error}</div>
+          <div className="text-lg text-neutral-900 dark:text-white">{error}</div>
         </div>
       </div>
     );
@@ -164,7 +212,7 @@ export default function DashboardPage() {
       <div className="min-h-screen">
         <BackgroundPattern />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-lg font-rajdhani text-neutral-900 dark:text-white">No data available</div>
+          <div className="text-lg text-neutral-900 dark:text-white">No data available</div>
         </div>
       </div>
     );
@@ -175,15 +223,15 @@ export default function DashboardPage() {
   const topicData = dailyData[currentTopic];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-manrope">
       <BackgroundPattern />
       
       {/* Top Bar */}
       <div className="fixed top-0 left-0 right-0 h-16 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm shadow-md flex items-center justify-between px-4 z-50">
-        <div className="text-lg font-rajdhani text-neutral-900 dark:text-white w-32 whitespace-nowrap">
+        <div className="text-lg text-neutral-900 dark:text-white w-32 whitespace-nowrap">
           Hello, {username}
         </div>
-        <div className="text-lg font-rajdhani text-neutral-900 dark:text-white text-center flex-1">
+        <div className="text-lg text-neutral-900 dark:text-white text-center flex-1">
           {format(currentDate, 'M/d')} - {currentTopic.charAt(0).toUpperCase() + currentTopic.slice(1)}
         </div>
         <div className="flex gap-2 w-32 justify-end">
@@ -272,7 +320,7 @@ export default function DashboardPage() {
               onClick={() => setCurrentTopic(topic)}
               className="h-12 w-12 text-2xl"
             >
-              {dailyData[topic]?.emoji || "📰"}
+              {TOPICS_DATA[topic]?.emoji || "📰"}
             </Button>
           ))}
         </div>
@@ -280,6 +328,9 @@ export default function DashboardPage() {
           <ThemeToggle />
         </div>
       </div>
+
+      {/* Countdown Timer */}
+      <CountdownTimer />
     </div>
   );
 } 

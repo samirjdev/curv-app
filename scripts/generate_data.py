@@ -1,189 +1,240 @@
-import json
 import os
+import json
 from datetime import datetime, timedelta
-import random
+from pymongo import MongoClient
+from dotenv import load_dotenv
 
-# Define topics with their emojis
-TOPICS = {
-    "sports": "⚽",
-    "technology": "💻",
-    "business": "💼",
-    "entertainment": "🎬",
-    "science": "🔬",
-    "health": "🏥",
-    "politics": "🏛️",
-    "gaming": "🎮"
+# Load environment variables
+load_dotenv()
+
+# MongoDB connection
+MONGODB_URI = os.getenv('MONGODB_URI')
+client = MongoClient(MONGODB_URI)
+db = client['test']
+articles_collection = db.articles
+
+print('Connected to MongoDB database:', db.name)
+print('Collections in database:', db.list_collection_names())
+
+# Base data structure for topics
+TOPICS_DATA = {
+    'sports': {
+        'emoji': '⚽',
+        'articles': []
+    },
+    'tech': {
+        'emoji': '💻',
+        'articles': []
+    },
+    'business': {
+        'emoji': '💼',
+        'articles': []
+    },
+    'entertainment': {
+        'emoji': '🎬',
+        'articles': []
+    },
+    'science': {
+        'emoji': '🔬',
+        'articles': []
+    },
+    'politics': {
+        'emoji': '🏛️',
+        'articles': []
+    }
 }
 
-# Sample headlines for each topic
-HEADLINES = {
-    "sports": [
-        "Major League Baseball Opening Day Breaks Attendance Records",
-        "NBA Playoff Race Heats Up in Final Regular Season Games",
-        "Olympic Committee Announces New Host City for 2032 Games",
-        "Soccer Star Sets New Goal-Scoring Record in European League",
-        "Tennis Pro Makes Historic Comeback After Injury"
-    ],
-    "technology": [
-        "New AI Model Breaks Performance Records in Language Tasks",
-        "Tech Giant Unveils Revolutionary Quantum Computing Breakthrough",
-        "Major Software Update Brings Enhanced Security Features",
-        "Startup Develops Breakthrough in Battery Technology",
-        "Virtual Reality Platform Announces Major Expansion"
-    ],
-    "business": [
-        "Global Markets Reach New All-Time High",
-        "Major Merger Creates New Industry Leader",
-        "Startup Secures Record-Breaking Funding Round",
-        "New Economic Report Shows Strong Growth Indicators",
-        "Major Retailer Announces Nationwide Expansion"
-    ],
-    "entertainment": [
-        "Blockbuster Movie Breaks Opening Weekend Records",
-        "Streaming Service Announces Major Content Partnership",
-        "Music Festival Lineup Revealed, Features Major Headliners",
-        "Award Show Celebrates Record-Breaking Viewership",
-        "New TV Series Breaks Streaming Records"
-    ],
-    "science": [
-        "Researchers Discover New Species in Deep Ocean Exploration",
-        "Breakthrough in Renewable Energy Storage Announced",
-        "Space Mission Returns with Unprecedented Data",
-        "New Study Reveals Insights into Human Brain Function",
-        "Climate Research Shows Promising New Solutions"
-    ],
-    "health": [
-        "New Medical Treatment Shows Promise in Clinical Trials",
-        "Public Health Initiative Reduces Disease Rates",
-        "Breakthrough in Vaccine Development Announced",
-        "Mental Health Awareness Campaign Reaches Millions",
-        "New Study Reveals Benefits of Exercise on Longevity"
-    ],
-    "politics": [
-        "International Summit Addresses Global Climate Crisis",
-        "New Legislation Aims to Reform Healthcare System",
-        "Diplomatic Breakthrough in International Relations",
-        "Major Policy Initiative Announced to Address Housing Crisis",
-        "Government Announces New Infrastructure Investment Plan"
-    ],
-    "gaming": [
-        "Major Game Studio Announces Next-Gen Console Exclusive",
-        "Esports Tournament Breaks Viewership Records",
-        "Virtual Reality Game Wins Multiple Industry Awards",
-        "Indie Game Developer Secures Major Publishing Deal",
-        "Gaming Platform Announces Cross-Platform Play Support"
-    ]
-}
-
-# Sample content for headlines
-CONTENT = {
-    "sports": [
-        "The opening day of the MLB season saw record-breaking attendance across stadiums nationwide, with fans eager to return to live sports after the offseason.",
-        "With just a few games remaining in the regular season, several teams are battling for the final playoff spots in what has been one of the most competitive seasons in recent memory.",
-        "The International Olympic Committee has selected a new host city for the 2032 Summer Games, marking a significant milestone in Olympic history.",
-        "A rising soccer star has broken the single-season goal-scoring record in one of Europe's top leagues, cementing their place in the sport's history.",
-        "After a career-threatening injury, a tennis professional has made an incredible comeback, winning their first major tournament since returning to competition."
-    ],
-    "technology": [
-        "A new artificial intelligence model has achieved unprecedented performance in natural language processing tasks, potentially revolutionizing how we interact with technology.",
-        "A leading tech company has announced a major breakthrough in quantum computing, bringing us closer to practical applications of this revolutionary technology.",
-        "The latest software update from a major tech company includes significant security enhancements and new features designed to protect user data.",
-        "A startup company has developed a revolutionary new battery technology that could dramatically increase the range of electric vehicles.",
-        "A major virtual reality platform has announced plans to expand its services, bringing immersive experiences to more users worldwide."
-    ],
-    "business": [
-        "Global financial markets have reached new record highs, driven by strong economic indicators and positive corporate earnings reports.",
-        "Two major companies in the industry have announced a merger that will create the largest player in the sector, potentially reshaping the market landscape.",
-        "A promising startup has secured the largest funding round in its industry's history, signaling strong investor confidence in its business model.",
-        "The latest economic report shows strong growth across multiple sectors, with unemployment reaching its lowest level in decades.",
-        "A major retail chain has announced plans to open hundreds of new locations nationwide, creating thousands of new jobs in the process."
-    ],
-    "entertainment": [
-        "The latest blockbuster movie has shattered box office records during its opening weekend, becoming the highest-grossing film of the year.",
-        "A leading streaming service has announced a major content partnership that will bring exclusive programming to its platform.",
-        "The lineup for this year's major music festival has been revealed, featuring some of the biggest names in the industry as headliners.",
-        "The annual award show celebrated its most-watched broadcast in history, with millions tuning in to see their favorite stars.",
-        "A new television series has broken streaming records, becoming the most-watched show in the platform's history."
-    ],
-    "science": [
-        "Scientists have discovered a new species during a deep-sea exploration mission, providing new insights into marine biodiversity.",
-        "Researchers have announced a major breakthrough in renewable energy storage technology that could revolutionize the clean energy sector.",
-        "A recent space mission has returned with unprecedented data that could change our understanding of the universe.",
-        "A new study has revealed groundbreaking insights into how the human brain processes information and forms memories.",
-        "Latest climate research has identified promising new solutions that could help mitigate the effects of global warming."
-    ],
-    "health": [
-        "Clinical trials for a new medical treatment have shown promising results, potentially offering hope for patients with previously untreatable conditions.",
-        "A public health initiative has successfully reduced disease rates in targeted communities, demonstrating the effectiveness of preventive healthcare measures.",
-        "Scientists have announced a breakthrough in vaccine development that could protect against multiple strains of a dangerous virus.",
-        "A mental health awareness campaign has reached millions of people, helping to reduce stigma and increase access to care.",
-        "A comprehensive new study has revealed significant benefits of regular exercise on longevity and overall health."
-    ],
-    "politics": [
-        "World leaders gathered at an international summit to address the global climate crisis, announcing new commitments to reduce carbon emissions.",
-        "New legislation has been introduced that aims to reform the healthcare system, potentially expanding access to millions of citizens.",
-        "A diplomatic breakthrough has been achieved in international relations, easing tensions between major world powers.",
-        "The government has announced a major policy initiative to address the housing crisis, including new funding for affordable housing projects.",
-        "A new infrastructure investment plan has been unveiled, promising to modernize transportation systems and create thousands of jobs."
-    ],
-    "gaming": [
-        "A leading game studio has announced an exclusive title for next-generation consoles, featuring groundbreaking graphics and innovative gameplay mechanics.",
-        "The latest esports tournament has broken all previous viewership records, with millions of fans tuning in to watch the world's best players compete.",
-        "A new virtual reality game has won multiple industry awards for its immersive experience and innovative use of VR technology.",
-        "An independent game developer has secured a major publishing deal that will bring their unique vision to a global audience.",
-        "A popular gaming platform has announced support for cross-platform play, allowing players on different systems to compete and cooperate in the same games."
-    ]
-}
-
-# Sample sources
-SOURCES = [
-    "Reuters",
-    "Associated Press",
-    "Bloomberg",
-    "The New York Times",
-    "The Wall Street Journal",
-    "BBC News",
-    "CNN",
-    "NPR",
-    "The Guardian",
-    "The Washington Post"
-]
-
-def generate_daily_data(date):
-    daily_data = {}
-    for topic in TOPICS:
-        # Select 3 random headlines for each topic
-        selected_headlines = random.sample(HEADLINES[topic], 3)
-        headlines = []
-        for headline in selected_headlines:
-            headlines.append({
-                "headline": headline,
-                "text": random.choice(CONTENT[topic]),
-                "sources": random.sample(SOURCES, random.randint(1, 3))
-            })
-        
-        daily_data[topic] = {
-            "emoji": TOPICS[topic],
-            "headlines": headlines
-        }
-    return daily_data
-
-def main():
-    # Create data directory if it doesn't exist
-    os.makedirs("public/data", exist_ok=True)
+def ensure_data_directories():
+    """Create the necessary directory structure for data storage"""
+    # Get the root directory (one level up from scripts)
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    data_dir = os.path.join(root_dir, 'data')
     
-    # Generate data for the week of April 7-13, 2024
-    start_date = datetime(2024, 4, 7)
-    for i in range(7):
-        current_date = start_date + timedelta(days=i)
-        date_str = current_date.strftime("%Y-%m-%d")
-        daily_data = generate_daily_data(current_date)
+    # Remove old data files if they exist
+    if os.path.exists(data_dir):
+        import shutil
+        shutil.rmtree(data_dir)
+    
+    # Create base data directory
+    os.makedirs(data_dir, exist_ok=True)
+    
+    # Create topic directories
+    for topic in TOPICS_DATA.keys():
+        topic_dir = os.path.join(data_dir, topic)
+        os.makedirs(topic_dir, exist_ok=True)
+        
+        # Create daily subdirectories for April 6-13, 2024
+        start_date = datetime(2024, 4, 6)
+        end_date = datetime(2024, 4, 13)
+        current_date = start_date
+        while current_date <= end_date:
+            date_str = current_date.strftime('%Y-%m-%d')
+            os.makedirs(os.path.join(topic_dir, date_str), exist_ok=True)
+            current_date += timedelta(days=1)
+
+def generate_sample_articles(topic):
+    """Generate sample articles for a given topic"""
+    if topic == 'sports':
+        return [
+            {
+                'headline': 'Major League Baseball Opening Day Breaks Records',
+                'text': 'The opening day of the MLB season saw record-breaking attendance across stadiums nationwide, with fans eager to return to live sports after the offseason.',
+                'sources': ['ESPN', 'Sports Illustrated']
+            },
+            {
+                'headline': 'NBA Playoff Race Heats Up',
+                'text': 'With just a few games remaining in the regular season, several teams are battling for the final playoff spots in what has been one of the most competitive seasons in recent memory.',
+                'sources': ['NBA.com', 'The Athletic']
+            },
+            {
+                'headline': 'New Soccer Transfer Record Set',
+                'text': 'A rising soccer star has broken the transfer record, moving to a top European club for an unprecedented fee that sets a new standard in the sport.',
+                'sources': ['Sky Sports', 'BBC Sport']
+            }
+        ]
+    elif topic == 'tech':
+        return [
+            {
+                'headline': 'Revolutionary AI Model Breaks Records',
+                'text': 'A new artificial intelligence model has achieved unprecedented performance in natural language processing tasks, potentially revolutionizing how we interact with technology.',
+                'sources': ['TechCrunch', 'Wired']
+            },
+            {
+                'headline': 'Quantum Computing Breakthrough',
+                'text': 'Scientists announce a major breakthrough in quantum computing stability, bringing practical quantum computers one step closer to reality.',
+                'sources': ['MIT Technology Review', 'Nature']
+            },
+            {
+                'headline': 'New Battery Technology Promises Longer Life',
+                'text': 'Researchers develop a new type of battery technology that could significantly increase the lifespan and charging speed of electronic devices.',
+                'sources': ['IEEE Spectrum', 'Scientific American']
+            }
+        ]
+    elif topic == 'business':
+        return [
+            {
+                'headline': 'Global Markets Reach New Highs',
+                'text': 'Major stock indices around the world have reached record levels as investor confidence grows amid positive economic indicators.',
+                'sources': ['Financial Times', 'Wall Street Journal']
+            },
+            {
+                'headline': 'Tech Giant Announces Major Acquisition',
+                'text': 'A leading technology company has announced plans to acquire a major competitor in a deal worth billions of dollars.',
+                'sources': ['Bloomberg', 'Reuters']
+            }
+        ]
+    elif topic == 'entertainment':
+        return [
+            {
+                'headline': 'Blockbuster Movie Breaks Box Office Records',
+                'text': 'The latest superhero movie has shattered box office records in its opening weekend, becoming the highest-grossing film of the year.',
+                'sources': ['Variety', 'Hollywood Reporter']
+            },
+            {
+                'headline': 'Music Streaming Service Hits New Milestone',
+                'text': 'A popular music streaming platform has reached 100 million paid subscribers worldwide.',
+                'sources': ['Billboard', 'Rolling Stone']
+            }
+        ]
+    elif topic == 'science':
+        return [
+            {
+                'headline': 'Astronomers Discover New Exoplanet',
+                'text': 'Scientists have identified a potentially habitable exoplanet in a nearby star system.',
+                'sources': ['Science', 'Nature Astronomy']
+            },
+            {
+                'headline': 'Climate Change Research Shows Accelerating Effects',
+                'text': 'New data reveals that climate change impacts are occurring faster than previously predicted.',
+                'sources': ['Nature Climate Change', 'Science Advances']
+            }
+        ]
+    elif topic == 'politics':
+        return [
+            {
+                'headline': 'Major Policy Reform Announced',
+                'text': 'The government has unveiled a comprehensive plan to address key social and economic issues.',
+                'sources': ['The New York Times', 'Washington Post']
+            },
+            {
+                'headline': 'International Summit Addresses Global Challenges',
+                'text': 'World leaders gather to discuss solutions to pressing global issues.',
+                'sources': ['BBC News', 'CNN']
+            }
+        ]
+    return []
+
+def save_topic_data(topic, date_str, articles):
+    """Save topic data to a JSON file"""
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    file_path = os.path.join(root_dir, 'data', topic, date_str, 'articles.json')
+    with open(file_path, 'w', encoding='utf-8') as f:
+        json.dump({
+            'topic': topic,
+            'emoji': TOPICS_DATA[topic]['emoji'],
+            'date': date_str,
+            'articles': articles
+        }, f, indent=2, ensure_ascii=False)
+
+def load_topic_data(topic, date_str):
+    """Load topic data from a JSON file"""
+    try:
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        file_path = os.path.join(root_dir, 'data', topic, date_str, 'articles.json')
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"Warning: No data found for {topic} on {date_str}")
+        return None
+
+def generate_daily_data(date_str):
+    """Generate and store daily articles for all topics"""
+    for topic in TOPICS_DATA.keys():
+        # Generate sample articles for this topic
+        articles = generate_sample_articles(topic)
         
         # Save to JSON file
-        with open(f"public/data/{date_str}.json", "w") as f:
-            json.dump(daily_data, f, indent=2)
-    
-    print("Data generation complete! Check the public/data directory.")
+        save_topic_data(topic, date_str, articles)
+        
+        # Store in MongoDB
+        for article in articles:
+            article_doc = {
+                'date': date_str,
+                'topic': topic,
+                'emoji': TOPICS_DATA[topic]['emoji'],
+                'headline': article['headline'],
+                'text': article['text'],
+                'sources': article['sources'],
+                'comments': [],
+                'ratings': []
+            }
+            
+            articles_collection.update_one(
+                {
+                    'date': date_str,
+                    'topic': topic,
+                    'headline': article['headline']
+                },
+                {'$set': article_doc},
+                upsert=True
+            )
 
-if __name__ == "__main__":
+def main():
+    # Create directory structure
+    ensure_data_directories()
+    
+    # Generate data for April 6-13, 2024
+    start_date = datetime(2024, 4, 6)
+    end_date = datetime(2024, 4, 13)
+    current_date = start_date
+    
+    while current_date <= end_date:
+        date_str = current_date.strftime('%Y-%m-%d')
+        print(f'Generating data for {date_str}...')
+        generate_daily_data(date_str)
+        current_date += timedelta(days=1)
+    
+    print('Data generation complete!')
+
+if __name__ == '__main__':
     main() 
