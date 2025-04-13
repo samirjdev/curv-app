@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
     const articles = await Article.find({ 
       date,
       topic
-    }).select('-comments -ratings'); // Exclude comments and ratings for initial load
+    });
 
     if (!articles || articles.length === 0) {
       return NextResponse.json({ error: 'No articles found' }, { status: 404 });

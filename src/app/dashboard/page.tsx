@@ -28,6 +28,14 @@ interface Article {
   text: string;
   sources: string[];
   emoji?: string;
+  comments: Array<{
+    user: {
+      _id: string;
+    };
+    text: string;
+    createdAt: string;
+    _id: string;
+  }>;
 }
 
 interface TopicData {
@@ -144,10 +152,13 @@ export default function DashboardPage() {
               _id: article._id,
               headline: article.headline,
               text: article.text,
-              sources: article.sources
+              sources: article.sources,
+              comments: article.comments || []
             }))
           }
         };
+
+        console.log('Transformed Data:', transformedData); // Add this for debugging
 
         setDailyData(transformedData);
 
@@ -261,6 +272,45 @@ export default function DashboardPage() {
     setCommentDialogOpen(true);
   };
 
+  const handleCommentAdded = async () => {
+    // Refetch the current day's articles to update comment counts
+    const fetchData = async () => {
+      try {
+        const dateStr = format(currentDate, 'yyyy-MM-dd');
+        const token = localStorage.getItem('token');
+        
+        const response = await fetch(`/api/articles?date=${dateStr}&topic=${currentTopic}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch articles');
+
+        const { articles } = await response.json();
+        
+        // Update only the headlines array in the current topic
+        setDailyData(prev => ({
+          ...prev,
+          [currentTopic]: {
+            emoji: articles[0]?.emoji || TOPICS_DATA[currentTopic]?.emoji || '📰',
+            headlines: articles.map((article: any) => ({
+              _id: article._id,
+              headline: article.headline,
+              text: article.text,
+              sources: article.sources,
+              comments: article.comments || []
+            }))
+          }
+        }));
+      } catch (error) {
+        console.error('Error refreshing articles:', error);
+      }
+    };
+
+    await fetchData();
+  };
+
   const navigateDay = (direction: 'prev' | 'next') => {
     const newDate = direction === 'prev' 
       ? subDays(currentDate, 1)
@@ -366,7 +416,7 @@ export default function DashboardPage() {
 
       {/* Content */}
       <div className="pt-32 pb-32 px-4 max-w-2xl mx-auto space-y-3">
-        {topicData && topicData.headlines ? (
+        {topicData && topicData.headlines && topicData.headlines.length > 0 ? (
           <>
             {topicData.headlines.map((headline, index) => {
               const headlineId = `${currentTopic}-${index}`;
@@ -403,9 +453,12 @@ export default function DashboardPage() {
                       <div className="absolute bottom-8 right-4 flex gap-2 article-actions">
                         <button
                           onClick={(e) => openComments(e, headlineId)}
-                          className="h-7 w-7 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 flex items-center justify-center transition-colors"
+                          className="h-7 flex items-center gap-1.5 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 px-2.5"
                         >
                           <MessageCircle className="h-3.5 w-3.5 text-neutral-600 dark:text-neutral-400" />
+                          <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
+                            {headline.comments?.length || 0}
+                          </span>
                         </button>
                         <button
                           onClick={(e) => togglePin(e, headlineId)}
@@ -433,8 +486,19 @@ export default function DashboardPage() {
             />
           </>
         ) : (
-          <div className="text-center text-neutral-500 dark:text-neutral-400">
-            No headlines available for this topic
+          <div className="flex flex-col items-center justify-center min-h-[250px] pt-10">
+            <div className="text-lg text-neutral-500 dark:text-neutral-400">
+              No topics could be found :(
+            </div>
+            <div className="text-lg text-neutral-500 dark:text-neutral-400 mt-2">
+              Find some new headlines?
+            </div>
+            <Button
+              variant="outline"
+              className="mt-6 px-8 py-2 text-neutral-500 dark:text-neutral-400 border-neutral-300 dark:border-neutral-600"
+            >
+              Generate
+            </Button>
           </div>
         )}
       </div>
@@ -481,6 +545,7 @@ export default function DashboardPage() {
           }}
           articleId={selectedArticle.id}
           headline={selectedArticle.headline}
+          onCommentAdded={handleCommentAdded}
         />
       )}
     </div>
