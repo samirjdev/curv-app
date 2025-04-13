@@ -76,12 +76,17 @@ export default function TopicRatingBar({ date, topic }: TopicRatingBarProps) {
           <span>{likes}</span>
         </button>
 
-        <div className="flex-1 h-2 bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden">
+        <div className="flex-1 h-2 bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden relative">
           <div
-            className="h-full transition-all duration-300"
+            className="absolute left-0 h-full bg-green-500 transition-all duration-300"
             style={{
               width: `${likePercentage}%`,
-              backgroundColor: likePercentage >= 50 ? '#22c55e' : '#ef4444',
+            }}
+          />
+          <div
+            className="absolute right-0 h-full bg-red-500 transition-all duration-300"
+            style={{
+              width: `${100 - likePercentage}%`,
             }}
           />
         </div>
