@@ -1,0 +1,464 @@
+{
+  "politics": [
+    {
+      "_id": {
+        "$oid": "78d2c77ab57a73fda1545040640972dd"
+      },
+      "topic": "politics",
+      "headline": "Parliament approves British Steel bill as sources say owners blocked from entering Scunthorpe plant – as it happened",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏛️",
+      "ratings": [],
+      "sources": [
+        "https://www.theguardian.com/politics/rss"
+      ],
+      "text": "<p>This blog is now closed, you can read more on this story <a href=\"https://www.theguardian.com/business/2025/apr/12/bill-to-save-british-steels-scunthorpe-furnaces-approved-by-parliament\">here</a></p><p>It’s been a busy morning for Sarah Jones, who is now on BBC Breakfast.</p><p>Asked whether the government had received any private offers for the company’s Scunthorpe plant, Sarah Jones said:</p><p>There is not at the moment, to answer your question, a private company that is there willing to invest at this point.</p><p>When we came into government, there was a deal on the table with Tata Steel in Port Talbot.</p><p>We negotiated in 10 weeks a much better deal, but there was a private company willing to invest, who are now investing.</p><p>We are hoping that the company will co-operate with what we are asking them to do, we hope that we will give them a notice and they will continue.</p><p>If they do not, we will step in. Now the company will be liable for any costs that we incur, and we will seek to get that money back.</p><p>We have the £2.5 billion fund for steel which we had in our manifesto, that we will use if necessary, so there will be no extra costs to the Exchequer that we don’t already have in our plans.</p> <a href=\"https://www.theguardian.com/politics/live/2025/apr/12/british-steel-nationalisation-parliament-scunthorpe-jingye-keir-starmer-latest-news-updates\">Continue reading...</a>"
+    },
+    {
+      "_id": {
+        "$oid": "2665c80efad1cbc8ea76ffb8cb124274"
+      },
+      "topic": "politics",
+      "headline": "Med5: Interior ministers call for strengthening of Frontex and agreements with third countries for returns",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏛️",
+      "ratings": [],
+      "sources": [
+        "https://www.euronews.com/rss?format=mrss&level=vertical&name=politics"
+      ],
+      "text": "At their two-day summit in Naples, the interior ministers of the EU countries bordering the Mediterranean Sea called for a strengthening of the European Border and Coastguard Agency and for more action to combat irregular immigration."
+    },
+    {
+      "_id": {
+        "$oid": "bf3d791ac222a913a346d363a560faf9"
+      },
+      "topic": "politics",
+      "headline": "Hungarian Two-tailed Dog Party stages largest protest to date against amendment of Assembly Act",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏛️",
+      "ratings": [],
+      "sources": [
+        "https://www.euronews.com/rss?format=mrss&level=vertical&name=politics"
+      ],
+      "text": "The Hungarian Two-tailed Dog Party held the largest demonstration ever against the amendment of the Assembly Act, with a large part of Heroes' Square filled to capacity on Saturday afternoon."
+    },
+    {
+      "_id": {
+        "$oid": "fba925fe6d5f6de526924b3522fdbc7e"
+      },
+      "topic": "politics",
+      "headline": "Trump admin tells judge man wrongly deported to El Salvador is alive, still detained",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏛️",
+      "ratings": [],
+      "sources": [
+        "https://www.npr.org/rss/rss.php?id=1014"
+      ],
+      "text": "On Friday, federal judge Paula Xinis had ordered the Trump administration to provide daily updates to return Kilmar Armando Abrego Garcia to the United States."
+    },
+    {
+      "_id": {
+        "$oid": "a33354574f057ae3f988a6bdf9503035"
+      },
+      "topic": "politics",
+      "headline": "Week in politics: Trump's tariff volatility, 'one big beautiful bill,' Supreme Court",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏛️",
+      "ratings": [],
+      "sources": [
+        "https://www.npr.org/rss/rss.php?id=1014"
+      ],
+      "text": "President Trump may have reduced some of his tariffs for now, but his faith in them remains consistent. Also, how the Supreme Court has weighed in on Trump administration actions."
+    }
+  ],
+  "business": [
+    {
+      "_id": {
+        "$oid": "f6b2c1ed8ee8f33306cec3807865c826"
+      },
+      "topic": "business",
+      "headline": "Wealthy Americans are buying second homes in this small ski town where slopeside property is quickly disappearing",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💼",
+      "ratings": [],
+      "sources": [
+        "https://www.businessinsider.com/rss"
+      ],
+      "text": "Colorado's Snowmass Village has a $1 billion development with fewer than two dozen new luxury ski-in, ski-out condos still available."
+    },
+    {
+      "_id": {
+        "$oid": "fe4333fd9d68f82fbcd0d732202cb4ec"
+      },
+      "topic": "business",
+      "headline": "The CEO of Microsoft AI has some 'sort of obvious' advice for young people looking to succeed",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💼",
+      "ratings": [],
+      "sources": [
+        "https://www.businessinsider.com/rss"
+      ],
+      "text": "Mustafa Suleyman said workers will develop \"symbiotic\" relationships with AI assistants, and young people should begin preparing now."
+    },
+    {
+      "_id": {
+        "$oid": "dba58f8de1707fb96e4520657f05d8f6"
+      },
+      "topic": "business",
+      "headline": "Simpson Thacher deal with Trump is 'shortsighted,' associate tells BI after resigning",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💼",
+      "ratings": [],
+      "sources": [
+        "https://www.businessinsider.com/rss"
+      ],
+      "text": "Siunik Moradian is the latest to resign from a major law firm for making a deal with the Trump administration."
+    },
+    {
+      "_id": {
+        "$oid": "9874a6143b23e4e65674a4eeadb3d544"
+      },
+      "topic": "business",
+      "headline": "Flights cancelled, millions told to stay indoors as strong winds lash China",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💼",
+      "ratings": [],
+      "sources": [
+        "https://www.aljazeera.com/xml/rss/all.xml"
+      ],
+      "text": "Beijing issues its second-highest gale alert as strong winds hit the capital region."
+    },
+    {
+      "_id": {
+        "$oid": "82d580d9935da415f0b631a02c0c567f"
+      },
+      "topic": "business",
+      "headline": "‘Camouflaged invasion’: Panama opposition slams security pact with the US",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💼",
+      "ratings": [],
+      "sources": [
+        "https://www.aljazeera.com/xml/rss/all.xml"
+      ],
+      "text": "Panama's opposition speaks out against deal that allows the deployment of US troops in the Central American nation."
+    }
+  ],
+  "science": [
+    {
+      "_id": {
+        "$oid": "a22e0e7e831d1a42bc0208f07eaf93d3"
+      },
+      "topic": "science",
+      "headline": "Saturday Citations: Huge eruptions from a black hole; the largest-ever functional brain map; origins of human musicality",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🔬",
+      "ratings": [],
+      "sources": [
+        "https://phys.org/rss-feed/"
+      ],
+      "text": "This week, researchers reported a brain circuit linked to the intensity of political behavior. Microbiologists found that the 2018 eruption of the Kīlauea volcano drove a rare, massive summertime phytoplankton bloom, the largest ever recorded in the North Pacific. And a physics professor at the University of Alabama in Huntsville proposed a new model of the universe built on multiple singularities rather than a single Big Bang."
+    },
+    {
+      "_id": {
+        "$oid": "6be4ddf13fd1bdfb2ef0dc9313d815f1"
+      },
+      "topic": "science",
+      "headline": "'I'm really excited about the engineering of it all.' Katy Perry is psyched for her Blue Origin launch on April 14",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🔬",
+      "ratings": [],
+      "sources": [
+        "https://www.space.com/feeds/all"
+      ],
+      "text": "The pop star is leaning into STEM ahead of her spaceflight."
+    },
+    {
+      "_id": {
+        "$oid": "141d25b5dd31639c953c1949db411124"
+      },
+      "topic": "science",
+      "headline": "New research shows evidence of children's gender biases reflected in their facial emotional expressions",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🔬",
+      "ratings": [],
+      "sources": [
+        "https://phys.org/rss-feed/"
+      ],
+      "text": "New research recently published in Archives of Sexual Behavior suggests children's gender biases can be reflected in their facial emotional expressions."
+    },
+    {
+      "_id": {
+        "$oid": "b67b8b6ab4aac84c1b307488266856bd"
+      },
+      "topic": "science",
+      "headline": "Trump wants to halt climate research by key agency: Reports",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🔬",
+      "ratings": [],
+      "sources": [
+        "https://phys.org/rss-feed/"
+      ],
+      "text": "The Trump administration, pursuing its deeply skeptical approach to climate change, wants to severely cut back the research arm of a government agency that plays a pivotal role in global climate science, US media reported Friday."
+    },
+    {
+      "_id": {
+        "$oid": "f4c202312a0fd3079cdc4453a14cbf17"
+      },
+      "topic": "science",
+      "headline": "Drug pollution in water is making salmon take more risks",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🔬",
+      "ratings": [],
+      "sources": [
+        "https://phys.org/rss-feed/"
+      ],
+      "text": "\"Out of sight, out of mind\" is how we often treat what is flushed down our toilets. But the drugs we take, from anxiety medications to antibiotics, don't simply vanish after leaving our bodies. Many are not fully removed by wastewater treatment systems and end up in rivers, lakes, and streams, where they can linger and affect wildlife in unexpected ways."
+    }
+  ],
+  "tech": [
+    {
+      "_id": {
+        "$oid": "531992c4029d8799c7db196b9f9bc381"
+      },
+      "topic": "tech",
+      "headline": "‘It will take time for foldables to become mainstream’: OnePlus defends decision to delay the OnePlus Open 2 and bow out of the foldable phones race in 2025",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💻",
+      "ratings": [],
+      "sources": [
+        "https://www.techradar.com/rss"
+      ],
+      "text": "OnePlus executive Rudolf Xu has shed more light on the company's decision to withdraw from the foldable market in 2025."
+    },
+    {
+      "_id": {
+        "$oid": "7dc333814630874243a45bd952e34a8f"
+      },
+      "topic": "tech",
+      "headline": "ICYMI: the week's 7 biggest tech stories from tariff-based iPhone panic buying to Samsung One UI 7 update taking its times",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💻",
+      "ratings": [],
+      "sources": [
+        "https://www.techradar.com/rss"
+      ],
+      "text": "The week's 7 biggest tech stories from Apple, Pico, Samsung and more for April 12, 2025."
+    },
+    {
+      "_id": {
+        "$oid": "e4ab27b0e5fd01a9bcf74569acf94d74"
+      },
+      "topic": "tech",
+      "headline": "It's broadband, Jim, but not as we know it: Japanese tech giants are developing a broadband optical SSD for data centers",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💻",
+      "ratings": [],
+      "sources": [
+        "https://www.techradar.com/rss"
+      ],
+      "text": "Three Japanese tech giants are developing a broadband optical SSD for data centers."
+    },
+    {
+      "_id": {
+        "$oid": "ff94ef198965de8bf92321f268e81fe6"
+      },
+      "topic": "tech",
+      "headline": "An Instagram iPad App, a New Motorola Razr, and Gemini’s Latest—Here’s Your Gear News of the Week",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💻",
+      "ratings": [],
+      "sources": [
+        "https://www.wired.com/feed/rss"
+      ],
+      "text": "Plus: Nothing teases a new CMF smartphone, Specialized’s new mountain ebike starts at $8,000, and Teenage Engineering's big software update for its sampler."
+    },
+    {
+      "_id": {
+        "$oid": "238104f555940572ecf5144da62a1f12"
+      },
+      "topic": "tech",
+      "headline": "Adding Google Gemini to Samsung's Ballie AI robot sounds impressive, but I'm not sure it matters",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "💻",
+      "ratings": [],
+      "sources": [
+        "https://www.techradar.com/rss"
+      ],
+      "text": "Why adding Gemini to Samsung's Ballie robot may be unnecessary."
+    }
+  ],
+  "sports": [
+    {
+      "_id": {
+        "$oid": "8021359160422323370"
+      },
+      "topic": "sports",
+      "headline": "‘Page 93’ – WNBA star sounds same two-word warning over rookie contract after advice handed out to Caitlin Clark",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏆",
+      "ratings": [],
+      "sources": [
+        "https://talksport.com/feed/"
+      ],
+      "text": ""
+    },
+    {
+      "_id": {
+        "$oid": "-8375079837291803029"
+      },
+      "topic": "sports",
+      "headline": "DJ Lagway injury update: Florida coach Billy Napier expects QB to start throwing again 'in a couple of weeks'",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏆",
+      "ratings": [],
+      "sources": [
+        "https://www.cbssports.com/rss/headlines"
+      ],
+      "text": "Lagway's recovery is 'on schedule' after an undisclosed shoulder injury"
+    },
+    {
+      "_id": {
+        "$oid": "-6655024073607347455"
+      },
+      "topic": "sports",
+      "headline": "Arsenal suffer double injury setback ahead of Real Madrid trip as Thomas Partey, Jorginho exit Brentford draw",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏆",
+      "ratings": [],
+      "sources": [
+        "https://www.cbssports.com/rss/headlines"
+      ],
+      "text": "Arsenal ended their 1-1 draw down to 10 men as their injury issues struck again"
+    },
+    {
+      "_id": {
+        "$oid": "-4848296521422638079"
+      },
+      "topic": "sports",
+      "headline": "2025 NFL Draft visits tracker, updates: Full list of every prospect all 32 teams have brought in for meetings",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏆",
+      "ratings": [],
+      "sources": [
+        "https://www.cbssports.com/rss/headlines"
+      ],
+      "text": "This is the final part of the pre-draft process"
+    },
+    {
+      "_id": {
+        "$oid": "-8449830879005218227"
+      },
+      "topic": "sports",
+      "headline": "Dak Prescott injury update: Cowboys QB says he could 'play a game today,' discusses upcoming team activities",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🏆",
+      "ratings": [],
+      "sources": [
+        "https://www.cbssports.com/rss/headlines"
+      ],
+      "text": "'I'm getting close to where I want to be'"
+    }
+  ],
+  "entertainment": [
+    {
+      "_id": {
+        "$oid": "d842d34eaaaa659afc74f9da47d33409"
+      },
+      "topic": "entertainment",
+      "headline": "Chris Meloni Remembers “Blustery Bulgarian” Ted Kotcheff, Reveals His Favorite Movie By Late ‘SVU’ Producing Director",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🎭",
+      "ratings": [],
+      "sources": [
+        "https://www.deadline.com/feed/"
+      ],
+      "text": "In addition to his extensive feature career, Canadian-Bulgarian filmmaker Ted Kotcheff worked on NBC’s venerable crime drama Law & Order’ SVU for its first 13 seasons as a producing director. He started as a co-executive producer, earning a quick promotion to executive producer at the start of Season 2. Following Kotcheff’s death at the age […]"
+    },
+    {
+      "_id": {
+        "$oid": "d0d90d6deae5652572b8ae1f7104190c"
+      },
+      "topic": "entertainment",
+      "headline": "The Director of ‘A Minecraft Movie’ Is OK with Chaos During Screenings: ‘People Are Making Memories’",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🎭",
+      "ratings": [],
+      "sources": [
+        "https://www.indiewire.com/feed/"
+      ],
+      "text": "Jared Hess is more concerned with audience members calling the cops on kids throwing popcorn than the actual mess that's being made due to the current \"Chicken Jockey\" trend."
+    },
+    {
+      "_id": {
+        "$oid": "d224218ad7a21eddd55d05a6cb175f81"
+      },
+      "topic": "entertainment",
+      "headline": "Don Mischer Dies: Renowned TV Director-Producer Of Oscars, Emmys, Super Bowl & Olympics Was 85",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🎭",
+      "ratings": [],
+      "sources": [
+        "https://www.deadline.com/feed/"
+      ],
+      "text": "Don Mischer, one of the preeminent live event directors of the past six decades, died peacefully in his sleep last night, April 11, in Los Angeles. The 15-time Emmy winner was 85. Mischer did not stop working until the end and passed away just as he was finally planning to retire for good. “I want […]"
+    },
+    {
+      "_id": {
+        "$oid": "3e43eafa7bb1c08122ca597cfb665503"
+      },
+      "topic": "entertainment",
+      "headline": "‘Stamped From The Beginning’s Roger Ross Williams Earns Impact Award From Miami Film Festival",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🎭",
+      "ratings": [],
+      "sources": [
+        "https://www.deadline.com/feed/"
+      ],
+      "text": "For a documentary filmmaker, there’s no greater compliment than to hear the words, “Your film made an impact.” For that reason, it was particularly significant this week for Oscar-winning director Roger Ross Williams to earn the Impact Award from the Miami Film Festival. “It means so much now in this day and age when everything […]"
+    },
+    {
+      "_id": {
+        "$oid": "8c4047dc8c3ff72ade49829ae309ee7e"
+      },
+      "topic": "entertainment",
+      "headline": "How ‘Warfare’ Created the Ultimate ‘You Are There’ Experience of Combat Through Sound",
+      "date": "2025-04-12",
+      "comments": [],
+      "emoji": "🎭",
+      "ratings": [],
+      "sources": [
+        "https://www.indiewire.com/feed/"
+      ],
+      "text": "The \"Warfare\" sound team took its forensic cues from newbie director and former Navy SEAL Ray Mendoza about what it was like to hear the snap of a bullet before the bang in Ramadi, Iraq, in 2006."
+    }
+  ]
+}

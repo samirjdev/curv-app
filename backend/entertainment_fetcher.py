@@ -2,27 +2,50 @@ import os
 import json
 import feedparser
 from datetime import datetime, timedelta
-from typing import List, Dict
+from typing import List, Dict, Optional
 from dotenv import load_dotenv
 import google.generativeai as genai
 from dateutil.parser import parse
 import hashlib
 import time
 import functools
+import asyncio
+import aiohttp
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import socket
+import logging
+import re
+import html
+import ssl
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 # Load environment variables
 load_dotenv()
 
 # Configure Gemini API
-genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+api_key = os.getenv('GEMINI_API_KEY')
+if api_key:
+    genai.configure(api_key=api_key)
+    USE_GEMINI = True
+    logging.info("Gemini API configured successfully")
+else:
+    USE_GEMINI = False
+    logging.warning("GEMINI_API_KEY not found. Article analysis will be skipped.")
 
-# Cache for API responses
+# Cache for API responses with TTL
 api_cache = {}
+CACHE_TTL = 3600  # 1 hour
 
-# Cache for RSS feed results
-feed_cache = {}
+# Timeout settings
+FEED_TIMEOUT = 10  # seconds
+socket.setdefaulttimeout(FEED_TIMEOUT)
 
-def cache_result(ttl_seconds=3600):
+def cache_result(ttl_seconds=CACHE_TTL):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -45,201 +68,289 @@ def get_yesterdays_date() -> str:
     yesterday = datetime.now() - timedelta(days=1)
     return yesterday.strftime('%Y-%m-%d')
 
-def parse_date(date_str: str) -> str:
-    """Parse various date formats and return YYYY-MM-DD"""
+async def fetch_feed(session, feed_url: str, date: str) -> List[Dict]:
+    """Fetch a single RSS feed asynchronously"""
     try:
-        # Try parsing with dateutil
-        parsed_date = parse(date_str)
-        return parsed_date.strftime('%Y-%m-%d')
+        # Add headers to mimic a browser
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+        }
+        
+        # Create SSL context that doesn't verify certificates
+        ssl_context = ssl.create_default_context()
+        ssl_context.check_hostname = False
+        ssl_context.verify_mode = ssl.CERT_NONE
+        
+        async with session.get(feed_url, timeout=FEED_TIMEOUT, headers=headers, ssl=ssl_context) as response:
+            if response.status != 200:
+                logging.warning(f"Feed {feed_url} returned status {response.status}")
+                return []
+                
+            content = await response.text()
+            feed = feedparser.parse(content)
+            articles = []
+            
+            # Configure timezone info for common timezones
+            tzinfos = {
+                "EDT": -14400,  # Eastern Daylight Time
+                "EST": -18000,  # Eastern Standard Time
+                "BST": 3600,    # British Summer Time
+                "GMT": 0,       # Greenwich Mean Time
+                "UTC": 0,       # Coordinated Universal Time
+                "PDT": -25200,  # Pacific Daylight Time
+                "PST": -28800   # Pacific Standard Time
+            }
+            
+            for entry in feed.entries:
+                date_field = entry.get('published', entry.get('updated', entry.get('pubDate')))
+                if not date_field:
+                    continue
+                
+                try:
+                    article_date = parse(date_field, tzinfos=tzinfos).strftime('%Y-%m-%d')
+                except Exception as e:
+                    logging.debug(f"Error parsing date {date_field}: {str(e)}")
+                    continue
+                
+                if article_date == date:
+                    # Clean and decode HTML entities
+                    title = html.unescape(entry.get('title', '')).strip()
+                    summary = html.unescape(entry.get('summary', '')).strip()
+                    link = entry.get('link', '').strip()
+                    
+                    articles.append({
+                        'headline': title,
+                        'published_date': article_date,
+                        'text': summary,
+                        'sources': [feed_url],
+                        'url': link
+                    })
+            
+            logging.info(f"Found {len(articles)} articles from {feed_url}")
+            return articles
+            
     except Exception as e:
-        print(f"Error parsing date {date_str}: {str(e)}")
-        return get_yesterdays_date()
+        logging.error(f"Error fetching from {feed_url}: {str(e)}")
+        return []
 
-@cache_result(ttl_seconds=3600)
-def fetch_articles_from_rss(target_date: str) -> List[Dict]:
-    """
-    Fetch entertainment articles from RSS feeds for a specific date
-    Returns a list of articles in the specified format
-    """
-    articles = []
-    
-    # Use a subset of the most reliable RSS feeds
-    rss_feeds = [
-        'https://www.hollywoodreporter.com/feed',
-        'https://variety.com/feed/',
-        'https://deadline.com/feed/',
+async def fetch_all_feeds(date: str) -> List[Dict]:
+    """Fetch all RSS feeds concurrently"""
+    # Most reliable and fastest entertainment RSS feeds
+    entertainment_rss_feeds = [
+        # Major Entertainment News Sources
         'https://www.rollingstone.com/feed/',
+        'https://www.variety.com/feed/',
+        'https://www.hollywoodreporter.com/feed/',
+        'https://www.ew.com/feed/',
+        
+        # Music and Arts
         'https://www.billboard.com/feed/',
-        'https://www.polygon.com/rss/index.xml',
-        'https://www.ign.com/feeds/news',
-        'https://www.engadget.com/rss.xml',
-        'https://www.theverge.com/rss/index.xml',
-        'https://www.wired.com/feed/rss'
+        'https://www.pitchfork.com/rss/',
+        'https://www.artsjournal.com/feed/',
+        
+        # Film and TV
+        'https://www.indiewire.com/feed/',
+        'https://www.deadline.com/feed/',
+        'https://www.empireonline.com/feed/'
     ]
     
-    for feed_url in rss_feeds:
-        try:
-            feed = feedparser.parse(feed_url)
-            for entry in feed.entries:
-                article_date = parse_date(entry.get('published', ''))
-                if article_date == target_date:
-                    articles.append({
-                        'headline': entry.get('title', ''),
-                        'published_date': article_date,
-                        'text': entry.get('summary', ''),
-                        'sources': [feed_url]
-                    })
-        except Exception as e:
-            print(f"Error fetching from {feed_url}: {str(e)}")
-    
-    return articles
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch_feed(session, feed_url, date) for feed_url in entertainment_rss_feeds]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        all_articles = []
+        seen_headlines = set()  # Track unique headlines
+        
+        for articles in results:
+            if isinstance(articles, list):  # Only add successful results
+                for article in articles:
+                    headline = article['headline']
+                    if headline and headline not in seen_headlines:
+                        seen_headlines.add(headline)
+                        all_articles.append(article)
+        
+        return all_articles
 
-@cache_result(ttl_seconds=3600)
-def analyze_article_with_gemini(article: Dict) -> Dict:
-    """
-    Use Gemini to analyze a single article
-    """
+def is_article_interesting(article: Dict) -> bool:
+    """Filter out uninteresting articles based on headline and content"""
+    headline = article['headline'].lower()
+    text = article.get('text', '').lower()
+    
+    # Immediate disqualifiers
+    if not headline or len(headline) < 10:
+        return False
+    
+    # Keywords that indicate an article is NOT interesting
+    uninteresting_patterns = [
+        # Reviews and opinions
+        r'review\b', r'opinion\b', r'analysis\b', r'commentary\b',
+        r'editorial\b', r'viewpoint\b', r'perspective\b',
+        
+        # Rumors and gossip
+        r'rumor\b', r'gossip\b', r'speculation\b', r'rumour\b',
+        r'hearsay\b', r'whispers\b',
+        
+        # Promotional
+        r'sponsored\b', r'advertisement\b', r'promoted\b',
+        r'paid\b', r'partner\b', r'sponsor\b'
+    ]
+    
+    # Check against patterns
+    for pattern in uninteresting_patterns:
+        if re.search(pattern, headline) or re.search(pattern, text):
+            return False
+    
+    # Keywords that indicate an article IS interesting
+    interesting_patterns = [
+        # Major events and releases
+        r'premiere\b', r'release\b', r'launch\b', r'debut\b',
+        r'festival\b', r'award\b', r'ceremony\b', r'nomination\b',
+        
+        # Industry news
+        r'production\b', r'casting\b', r'director\b', r'actor\b',
+        r'studio\b', r'network\b', r'streaming\b', r'platform\b',
+        
+        # Cultural impact
+        r'controversy\b', r'scandal\b', r'backlash\b', r'response\b',
+        r'impact\b', r'influence\b', r'trend\b', r'movement\b'
+    ]
+    
+    # Check if any interesting patterns are present
+    return any(re.search(pattern, headline) or re.search(pattern, text)
+              for pattern in interesting_patterns)
+
+@cache_result(ttl_seconds=CACHE_TTL)
+def analyze_article_with_gemini(articles: List[Dict]) -> List[Dict]:
+    """Use Gemini to analyze and rank articles"""
+    if not USE_GEMINI:
+        # Sort by headline length as a basic heuristic
+        articles.sort(key=lambda x: len(x['headline']), reverse=True)
+        return articles[:5]
+    
     try:
-        # Use the correct model name for Gemini
         model = genai.GenerativeModel('gemini-1.5-pro')
         
-        # Create a prompt for Gemini
+        # Extract headlines for analysis
+        headlines = [article['headline'] for article in articles]
+        
         prompt = f"""
-        Analyze this entertainment article and provide a brief summary:
-        Headline: {article['headline']}
-        Text: {article['text']}
+        Analyze these entertainment headlines and select the 5 most important/impactful stories based on:
+        1. Cultural significance and impact
+        2. Industry importance
+        3. Breaking news value
+        4. Public interest and engagement
+
+        Headlines:
+        {json.dumps(headlines, indent=2)}
+
+        Return ONLY a JSON array with the indices of the top 5 headlines (0-based indexing).
+        Format: [0, 1, 2, 3, 4]
         """
         
         response = model.generate_content(prompt)
+        response_text = response.text.strip()
         
-        # Try to parse the JSON response
+        # Clean up response text
+        if "```" in response_text:
+            response_text = response_text.split("```")[1].split("```")[0]
+        response_text = response_text.strip()
+        if response_text.startswith('json'):
+            response_text = response_text[4:].strip()
+        
         try:
-            # Extract JSON from the response
-            response_text = response.text
-            # Find JSON content between triple backticks if present
-            if "```json" in response_text:
-                json_str = response_text.split("```json")[1].split("```")[0].strip()
-            elif "```" in response_text:
-                json_str = response_text.split("```")[1].split("```")[0].strip()
-            else:
-                json_str = response_text.strip()
+            top_indices = json.loads(response_text)
+            if not isinstance(top_indices, list):
+                raise ValueError("Response is not a list")
             
-            analysis = json.loads(json_str)
+            # Validate indices
+            valid_indices = [i for i in top_indices if isinstance(i, int) and 0 <= i < len(articles)]
+            valid_indices = valid_indices[:5]  # Take only first 5 valid indices
             
-            # Add the analysis to the article
-            article['gemini_analysis'] = analysis
+            if not valid_indices:
+                print("No valid indices returned by Gemini")
+                # Sort by headline length as a fallback
+                articles.sort(key=lambda x: len(x['headline']), reverse=True)
+                return articles[:5]
             
-        except json.JSONDecodeError:
-            # If JSON parsing fails, store the raw text
-            article['gemini_analysis'] = {
-                'summary': response_text[:200] + '...',
-                'key_points': [],
-                'related_topics': []
-            }
+            return [articles[i] for i in valid_indices]
+            
+        except Exception as e:
+            print(f"Error parsing Gemini response: {str(e)}")
+            # Sort by headline length as a fallback
+            articles.sort(key=lambda x: len(x['headline']), reverse=True)
+            return articles[:5]
             
     except Exception as e:
-        # Handle API key errors gracefully
-        if "API key expired" in str(e) or "API_KEY_INVALID" in str(e):
-            print(f"API key error: {str(e)}")
-            # Add a placeholder analysis
-            article['gemini_analysis'] = {
-                'summary': "API key error - analysis not available",
-                'key_points': [],
-                'related_topics': []
-            }
-        else:
-            print(f"Error analyzing article with Gemini: {str(e)}")
-            # Add a placeholder analysis
-            article['gemini_analysis'] = {
-                'summary': "Error analyzing article",
-                'key_points': [],
-                'related_topics': []
-            }
-    
-    return article
+        print(f"Error using Gemini API: {str(e)}")
+        # Sort by headline length as a fallback
+        articles.sort(key=lambda x: len(x['headline']), reverse=True)
+        return articles[:5]
 
-def is_article_interesting(headline: str) -> bool:
-    """
-    Determine if an article is interesting based on its headline.
-    Returns True if the article is interesting, False otherwise.
-    """
-    # Use sets for faster lookups
-    uninteresting_keywords = {'review', 'best', 'top', 'guide', 'how to', 'deal', 'sale', 'offer', 'discount', 'promotion'}
+async def get_daily_entertainment_articles() -> List[Dict]:
+    """Get entertainment articles from yesterday"""
+    start_time = time.time()
     
-    # Check uninteresting keywords first (faster rejection)
-    if any(keyword in headline.lower() for keyword in uninteresting_keywords):
-        return False
-    
-    # Use a more focused set of interesting keywords
-    interesting_keywords = {
-        'movie', 'film', 'cinema', 'tv', 'television', 'series',
-        'music', 'song', 'album', 'artist', 'band', 'singer',
-        'game', 'gaming', 'console', 'playstation', 'xbox', 'nintendo',
-        'award', 'ceremony', 'red carpet', 'nomination', 'winner',
-        'celebrity', 'star', 'actor', 'actress', 'director', 'producer'
-    }
-    
-    return any(keyword in headline.lower() for keyword in interesting_keywords)
-
-def get_daily_entertainment_articles() -> List[Dict]:
-    """
-    Main function to get daily entertainment articles
-    """
     # Get yesterday's date
-    yesterday = get_yesterdays_date()
+    date = get_yesterdays_date()
+    logging.info(f"Fetching articles for {date}")
     
-    # Fetch articles from RSS feeds
-    articles = fetch_articles_from_rss(yesterday)
+    # Fetch articles from RSS feeds concurrently
+    articles = await fetch_all_feeds(date)
+    logging.info(f"Found {len(articles)} total articles")
     
-    # Filter and analyze interesting articles
-    formatted_articles = []
+    # Filter out duplicates and uninteresting articles
+    seen_headlines = set()
+    interesting_articles = []
     for article in articles:
-        if is_article_interesting(article['headline']):
-            # Analyze the article with Gemini
-            analyzed_article = analyze_article_with_gemini(article)
-            
-            # Generate a deterministic ID using MD5
-            id_string = f"{article['headline']}{article['published_date']}"
-            article_id = hashlib.md5(id_string.encode()).hexdigest()
-            
-            # Ensure gemini_analysis is present
-            if 'gemini_analysis' not in analyzed_article:
-                analyzed_article['gemini_analysis'] = {
-                    'summary': "Analysis not available",
-                    'key_points': [],
-                    'related_topics': []
-                }
-            
-            formatted_article = {
-                "_id": {"$oid": article_id},
-                "topic": "entertainment",
-                "headline": article['headline'],
-                "date": article['published_date'],
-                "comments": [],
-                "emoji": "🎬",
-                "ratings": [],
-                "sources": article['sources'],
-                "text": article['text'],
-                "gemini_analysis": analyzed_article['gemini_analysis']
-            }
-            
-            formatted_articles.append(formatted_article)
+        headline = article['headline']
+        if headline not in seen_headlines and is_article_interesting(article):
+            seen_headlines.add(headline)
+            interesting_articles.append(article)
+    
+    logging.info(f"Filtered to {len(interesting_articles)} interesting articles")
+    
+    # Analyze all articles with Gemini at once
+    analyzed_articles = analyze_article_with_gemini(interesting_articles)
+    logging.info(f"Selected top {len(analyzed_articles)} articles")
+    
+    # Format the articles
+    formatted_articles = []
+    for article in analyzed_articles:
+        formatted_article = {
+            "_id": {"$oid": hashlib.md5((article['headline'] + article['published_date']).encode()).hexdigest()},
+            "topic": "entertainment",
+            "headline": article['headline'],
+            "date": article['published_date'],
+            "comments": [],
+            "emoji": "🎭",
+            "ratings": [],
+            "sources": article['sources'],
+            "text": article['text']
+        }
+        formatted_articles.append(formatted_article)
+    
+    # Print execution time
+    execution_time = time.time() - start_time
+    logging.info(f"Total execution time: {execution_time:.2f} seconds")
     
     return formatted_articles
 
-# Example usage
 if __name__ == "__main__":
-    start_time = time.time()
-    articles = get_daily_entertainment_articles()
-    end_time = time.time()
+    # Test the function with entertainment topic
+    articles = asyncio.run(get_daily_entertainment_articles())
     
-    print(f"\nFound {len(articles)} entertainment articles from {get_yesterdays_date()}")
-    print(f"Execution time: {end_time - start_time:.2f} seconds")
-    
+    # Print results
+    print(f"\nFound {len(articles)} entertainment articles from {get_yesterdays_date()}\n")
     for article in articles:
-        print("\nArticle:")
+        print("Article:")
         print(f"Topic: {article['topic']} {article['emoji']}")
-        print(f"Headline: {article['headline']}")
+        # Ensure headline fits within 80 characters
+        headline = article['headline']
+        if len(headline) > 77:  # 80 - 3 for "..."
+            headline = headline[:74] + "..."
+        print(f"Headline: {headline}")
         print(f"Date: {article['date']}")
         print(f"Sources: {', '.join(article['sources'])}")
-        print("-" * 80) 
+        print("-" * 80 + "\n") 
