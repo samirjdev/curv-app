@@ -47,10 +47,17 @@ interface DailyData {
   [key: string]: TopicData;
 }
 
+interface CustomTopic {
+  id: string;
+  label: string;
+  emoji: string;
+}
+
 export default function DashboardPage() {
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [customTopics, setCustomTopics] = useState<CustomTopic[]>([]);
   const [currentTopic, setCurrentTopic] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date(2024, 3, 13)); // April 13, 2024
   const [dailyData, setDailyData] = useState<DailyData | null>(null);
@@ -64,6 +71,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const savedTopics = localStorage.getItem('selectedTopics');
+    const savedCustomTopics = localStorage.getItem('customTopics');
     
     if (!token) {
       router.push('/login');
@@ -92,9 +100,13 @@ export default function DashboardPage() {
         setUsername(data.user.username || '');
 
         const topics = JSON.parse(savedTopics);
+        const customTopics = savedCustomTopics ? JSON.parse(savedCustomTopics) : [];
+        setCustomTopics(customTopics);
+        
         // Ensure topics match the data file format
         const validTopics = topics.filter((topic: string) => 
-          ['sports', 'technology', 'business', 'entertainment', 'science', 'politics'].includes(topic)
+          ['sports', 'technology', 'business', 'entertainment', 'science', 'politics'].includes(topic) ||
+          customTopics.some((ct: CustomTopic) => ct.id === topic)
         );
         
         if (validTopics.length === 0) {
@@ -114,6 +126,31 @@ export default function DashboardPage() {
     fetchUserData();
   }, [router]);
 
+  // Function to check if a topic is custom
+  const isCustomTopic = (topicId: string) => {
+    return customTopics.some(ct => ct.id === topicId);
+  };
+
+  // Function to get topic emoji
+  const getTopicEmoji = (topicId: string) => {
+    const customTopic = customTopics.find(ct => ct.id === topicId);
+    if (customTopic) return customTopic.emoji;
+    return TOPICS_DATA[topicId]?.emoji || "📰";
+  };
+
+  // Function to get topic name
+  const getTopicName = (topicId: string) => {
+    const customTopic = customTopics.find(ct => ct.id === topicId);
+    if (customTopic) return customTopic.label;
+    return topicId.charAt(0).toUpperCase() + topicId.slice(1);
+  };
+
+  // Function to check if articles can be loaded for this date/topic
+  const canLoadArticles = (date: Date, topicId: string) => {
+    const isLatestDate = date.getTime() >= new Date(2024, 3, 13).getTime();
+    return !isCustomTopic(topicId) || isLatestDate;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -122,6 +159,17 @@ export default function DashboardPage() {
         const dateStr = format(currentDate, 'yyyy-MM-dd');
         const token = localStorage.getItem('token');
         
+        // If it's a custom topic and not the latest date, set empty state
+        if (!canLoadArticles(currentDate, currentTopic)) {
+          setDailyData({
+            [currentTopic]: {
+              emoji: getTopicEmoji(currentTopic),
+              headlines: []
+            }
+          });
+          return;
+        }
+
         const response = await fetch(`/api/articles?date=${dateStr}&topic=${currentTopic}`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -133,7 +181,7 @@ export default function DashboardPage() {
             // No articles found, set empty state
             setDailyData({
               [currentTopic]: {
-                emoji: TOPICS_DATA[currentTopic]?.emoji || '📰',
+                emoji: getTopicEmoji(currentTopic),
                 headlines: []
               }
             });
@@ -147,7 +195,7 @@ export default function DashboardPage() {
         // Transform the data to match the existing format
         const transformedData = {
           [currentTopic]: {
-            emoji: articles[0]?.emoji || TOPICS_DATA[currentTopic]?.emoji || '📰',
+            emoji: getTopicEmoji(currentTopic),
             headlines: articles.map((article: any) => ({
               _id: article._id,
               headline: article.headline,
@@ -157,8 +205,6 @@ export default function DashboardPage() {
             }))
           }
         };
-
-        console.log('Transformed Data:', transformedData); // Add this for debugging
 
         setDailyData(transformedData);
 
@@ -410,13 +456,19 @@ export default function DashboardPage() {
       {/* Date-Topic Bar */}
       <div className="fixed top-16 left-0 right-0 h-12 bg-black/50 backdrop-blur-sm flex items-center justify-center z-40">
         <div className="text-lg text-white">
-          {format(currentDate, 'MMMM')} {format(currentDate, 'd')}{getOrdinalSuffix(currentDate.getDate())} ⠀⠀{currentTopic.charAt(0).toUpperCase() + currentTopic.slice(1)}
+          {format(currentDate, 'MMMM')} {format(currentDate, 'd')}{getOrdinalSuffix(currentDate.getDate())} ⠀⠀{getTopicName(currentTopic)}
         </div>
       </div>
 
       {/* Content */}
       <div className="pt-32 pb-32 px-4 max-w-2xl mx-auto space-y-3">
-        {topicData && topicData.headlines && topicData.headlines.length > 0 ? (
+        {(!canLoadArticles(currentDate, currentTopic)) ? (
+          <div className="flex flex-col items-center justify-center min-h-[250px] pt-10">
+            <div className="text-lg text-neutral-500 dark:text-neutral-400">
+              Custom topics are only available for generation on the current day! :)
+            </div>
+          </div>
+        ) : topicData && topicData.headlines && topicData.headlines.length > 0 ? (
           <>
             {topicData.headlines.map((headline, index) => {
               const headlineId = `${currentTopic}-${index}`;
@@ -524,7 +576,7 @@ export default function DashboardPage() {
               onClick={() => setCurrentTopic(topic)}
               className="h-12 w-12 text-2xl"
             >
-              {TOPICS_DATA[topic]?.emoji || "📰"}
+              {getTopicEmoji(topic)}
             </Button>
           ))}
         </div>
