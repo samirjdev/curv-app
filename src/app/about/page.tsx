@@ -63,15 +63,23 @@ export default function AboutPage() {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="text-center"
           >
-            <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center">
-              <p className="text-neutral-400 dark:text-neutral-600">Profile Picture</p>
+            <div className="flex flex-col items-center">
+              <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
+                <Image
+                  src="/profile_1_icon.png"
+                  alt="Profile 1"
+                  width={96}
+                  height={96}
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                Samir J.
+              </h3>
+              <p className="text-neutral-600 dark:text-neutral-400">
+                Frontend Developer
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-2">
-              Samir J.
-            </h3>
-            <p className="text-neutral-600 dark:text-neutral-400">
-              Frontend Developer
-            </p>
           </motion.div>
 
           <motion.div
@@ -80,15 +88,23 @@ export default function AboutPage() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-center"
           >
-            <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center">
-              <p className="text-neutral-400 dark:text-neutral-600">Profile Picture</p>
+            <div className="flex flex-col items-center">
+              <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
+                <Image
+                  src="/profile_2_icon.jpg"
+                  alt="Profile 2"
+                  width={96}
+                  height={96}
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                Amrit G.
+              </h3>
+              <p className="text-neutral-600 dark:text-neutral-400">
+                Backend Developer
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-2">
-              Amrit G.
-            </h3>
-            <p className="text-neutral-600 dark:text-neutral-400">
-              Backend Developer
-            </p>
           </motion.div>
 
           <motion.div
@@ -97,15 +113,23 @@ export default function AboutPage() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-center"
           >
-            <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center">
-              <p className="text-neutral-400 dark:text-neutral-600">Profile Picture</p>
+            <div className="flex flex-col items-center">
+              <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
+                <Image
+                  src="/profile_3_icon.png"
+                  alt="Profile 3"
+                  width={96}
+                  height={96}
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                Maxim R.
+              </h3>
+              <p className="text-neutral-600 dark:text-neutral-400">
+                Design & Assets
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-2">
-              Maxim R.
-            </h3>
-            <p className="text-neutral-600 dark:text-neutral-400">
-              Design & Assets
-            </p>
           </motion.div>
         </div>
 
@@ -121,13 +145,13 @@ export default function AboutPage() {
           </h2>
           <div className="space-y-4 text-neutral-600 dark:text-neutral-400">
             <p>
-              Curv is an innovative social media platform that leverages Google's Gemini AI to deliver personalized content while combating social media addiction. Our team worked together to create a modern, user-friendly experience that puts content quality over quantity.
+              Curv is a revolutionary platform designed to combat social media addiction while preserving the positive aspects of online communities. By leveraging Google's Gemini AI, we deliver personalized, meaningful content without the harmful effects of traditional social media platforms.
             </p>
             <p>
-              Samir led the frontend development, creating an intuitive and responsive user interface using Next.js and shadcn/ui. Amrit handled the backend architecture and API integration, implementing secure authentication and efficient data management. Maxim contributed to the project's visual identity, creating assets and ensuring a cohesive design language throughout the application.
+              Samir led the frontend development and database architecture, creating an intuitive and responsive user interface using Next.js and shadcn/ui, while also implementing efficient data management and storage solutions. Amrit contributed to the backend development, working with various APIs and ensuring seamless integration with external services. Maxim focused on the visual aspects, creating assets and working on the overall presentation and design of the platform.
             </p>
             <p>
-              Together, we've built a platform that challenges traditional social media norms while providing a more meaningful and focused user experience.
+              Our platform maintains the benefits of social media - like community consensus and meaningful discussions - while eliminating the negative aspects such as doomscrolling, algorithmic manipulation, and content overload. We're challenging the status quo of big tech by putting user well-being first, creating a space where quality content and meaningful interactions take precedence over engagement metrics.
             </p>
           </div>
         </motion.div>

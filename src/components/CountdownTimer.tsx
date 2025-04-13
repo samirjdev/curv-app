@@ -41,7 +41,7 @@ export default function CountdownTimer() {
   return (
     <div className="fixed bottom-17 left-0 right-0 p-2 flex justify-center items-center bg-black/50 backdrop-blur-sm">
       <div className="text-lg font-manrope text-white">
-        Next Update In: {timeLeft}
+        Next Update In | {timeLeft}
       </div>
     </div>
   );

@@ -100,7 +100,7 @@ export default function HomePage() {
               AI-Powered Content
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400">
-              Experience personalized news and content curated by Google's Gemini AI. Our platform analyzes your interests and delivers relevant, high-quality content without the noise of traditional social media.
+              Experience customized news and content curated by Google Gemini. Our platform can generate current news and analyze current trends based on your selected topics, while maintaining interactivity, and deliver relevant, high-quality content without the noise of traditional social media.
             </p>
           </motion.div>
 
@@ -114,34 +114,42 @@ export default function HomePage() {
               Focus on What Matters
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400">
-              Break free from endless scrolling and information overload. Curv helps you focus on content that truly matters to you, with a clean, distraction-free interface designed for meaningful engagement.
+              Break free from the cycle of endless scrolling and information overload. Curv helps you focus on content that truly matters to you, with a clean, distraction-free interface designed for meaningful engagement. No data collection, no ads. All of the positives, with none of the negatives.
             </p>
           </motion.div>
         </div>
+      </div>
 
-        {/* Directory */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          className="mt-16 text-center"
-        >
-          <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white mb-4">
+      {/* Directory */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 0.8 }}
+        className="bg-neutral-900 dark:bg-neutral-950 py-8 w-full"
+      >
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-2xl font-semibold text-white mb-4 text-center">
             Project Directory
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Link href="https://github.com/samirjdev/curv-app" target="_blank" rel="noopener noreferrer" className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
+            <Link href="https://github.com/samirjdev/curv-app" target="_blank" rel="noopener noreferrer" className="text-neutral-300 hover:text-white transition-colors">
+              GitHub
+            </Link>
+            <Link href="https://github.com/samirjdev/curv-app" target="_blank" rel="noopener noreferrer" className="text-neutral-300 hover:text-white transition-colors">
               Documentation
             </Link>
-            <Link href="/about" className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+            <Link href="/about" className="text-neutral-300 hover:text-white transition-colors">
               About Us
             </Link>
-            <Link href="/login" className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+            <Link href="/login" className="text-neutral-300 hover:text-white transition-colors">
               Login
             </Link>
+            <Link href="/signup" className="text-neutral-300 hover:text-white transition-colors">
+              Sign Up
+            </Link>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 }

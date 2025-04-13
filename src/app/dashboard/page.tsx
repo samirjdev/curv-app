@@ -588,7 +588,7 @@ export default function DashboardPage() {
           <Image
             src="/curv_text.png"
             alt="Curv"
-            width={125}
+            width={120}
             height={50}
             className="invert dark:invert-0"
             priority
@@ -617,7 +617,7 @@ export default function DashboardPage() {
       {/* Date-Topic Bar */}
       <div className="fixed top-16 left-0 right-0 h-12 bg-black/50 backdrop-blur-sm flex items-center justify-center z-40">
         <div className="text-lg text-white">
-          {format(currentDate, 'MMMM')} {format(currentDate, 'd')}{getOrdinalSuffix(currentDate.getDate())} ⠀⠀{getTopicName(currentTopic)}
+          {format(currentDate, 'MMMM')} {format(currentDate, 'd')}{getOrdinalSuffix(currentDate.getDate())} | {getTopicName(currentTopic)}
         </div>
       </div>
 
