@@ -82,8 +82,16 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="flex justify-center"
           >
-            <div className="w-full h-96 bg-neutral-100 dark:bg-neutral-900 rounded-lg flex items-center justify-center">
-              <p className="text-neutral-400 dark:text-neutral-600">Graphic Coming Soon</p>
+            <div className="w-full h-96 flex items-center justify-center">
+              <Image
+                src="/landingpage_icon.png"
+                alt="Curv Landing"
+                width={400}
+                height={400}
+                className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] invert-0 dark:invert"
+                priority
+                quality={100}
+              />
             </div>
           </motion.div>
         </div>

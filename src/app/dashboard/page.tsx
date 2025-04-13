@@ -13,6 +13,7 @@ import CountdownTimer from "@/components/CountdownTimer";
 import TopicRatingBar from "@/components/TopicRatingBar";
 import CommentDialog from "@/components/CommentDialog";
 import ChatDialog from "@/components/ChatDialog";
+import TrendingOverlay from "@/components/TrendingOverlay";
 
 const TOPICS_DATA: Record<string, { emoji: string }> = {
   sports: { emoji: '⚽' },
@@ -76,6 +77,7 @@ export default function DashboardPage() {
     headline: string;
     text: string;
   } | null>(null);
+  const [showTrending, setShowTrending] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -734,7 +736,7 @@ export default function DashboardPage() {
             </div>
             <div className="text-lg text-neutral-500 dark:text-neutral-400 mt-2">
               {isCustomTopic(currentTopic) ? 
-                "Generate a trend analysis?" :
+                "Generate a content analysis?" :
                 "Find some new headlines?"
               }
             </div>
@@ -773,6 +775,14 @@ export default function DashboardPage() {
               {getTopicEmoji(topic)}
             </Button>
           ))}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setShowTrending(true)}
+            className="h-12 w-12 text-2xl"
+          >
+            🔥
+          </Button>
         </div>
         <div className="w-10 flex justify-end">
           <ThemeToggle />
@@ -807,6 +817,12 @@ export default function DashboardPage() {
           text={selectedArticleForChat.text}
         />
       )}
+
+      <TrendingOverlay
+        isOpen={showTrending}
+        onClose={() => setShowTrending(false)}
+        topic={getTopicName(currentTopic)}
+      />
     </div>
   );
 }
