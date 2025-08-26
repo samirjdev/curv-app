@@ -29,7 +29,7 @@ Curv provides a mindful approach to news consumption and community interaction:
 
 ### Backend
 - **Python FastAPI** - High-performance API server
-- **MongoDB Atlas** - Cloud database for:
+- **Cloud database**
   - User profiles and authentication
   - Article storage and management
   - Comment systems
@@ -56,7 +56,7 @@ Curv provides a mindful approach to news consumption and community interaction:
 - JWT token management
 - Protected API routes
 
-### MongoDB Integration
+### Database Integration
 - Efficient document-based data storage
 - Real-time data updates
 - Complex aggregation pipelines for:
@@ -112,7 +112,6 @@ uvicorn main:app --reload
 
 Required environment variables:
 ```
-MONGODB_URI=your_mongodb_uri
 GEMINI_API_KEY=your_gemini_api_key
 JWT_SECRET=your_jwt_secret
 ```
