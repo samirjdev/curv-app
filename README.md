@@ -1,25 +1,22 @@
 # <img src="/public/curv_text.png" alt="Curv Logo" width="800" />
 
-# Curv - The Mindful "Anti-Social Media" Platform
+# Curv
 
-Built in under 24 hours for HackaBull 2025 at the University of South Florida! 🚀
+Built for HackaBull 2025 at the University of South Florida! 🚀
 
 ## Inspiration
 
-In today's digital age, social media platforms often lead to negative effects like depression, anxiety, and cyberbullying. We wanted to create a platform that captures the engaging aspects of social media while eliminating its harmful elements. Curv is designed to keep you informed by keeping you ahead of the Curv and connected without the downsides of traditional social media.
+We wanted to create a platform that captures the engaging aspects of social media while eliminating its harmful elements. Curv is designed to keep you informed by keeping you ahead of the Curv and connected without the downsides of traditional social media.
 
 ### The Problem We're Solving
 - 🕒 People spend excessive time on social media
-- 😔 Social media contributes to depression and anxiety
-- 🎯 Cyberbullying and toxic behavior online
 - 📱 Addictive design patterns in current platforms
 
 ### Our Solution
 Curv provides a mindful approach to news consumption and community interaction:
 - Clean, distraction-free interface
 - Focus on quality content over engagement metrics
-- Community-driven discussions without the toxicity
-- AI-powered content curation for balanced perspectives
+- AI-powered content curation
 
 ## Technologies Used
 
